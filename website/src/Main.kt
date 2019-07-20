@@ -13,6 +13,9 @@ data class LogEntry(
 
 
 fun map(usernamesJ: String,entriesJ: String):List<LogEntry>{
+    println("usernamesJ:$usernamesJ")
+    println("entriesJ:$entriesJ")
+
     val usernames = JSON.parse<dynamic>(usernamesJ)
     fun getUsernameForUUID(uuid: String):String{
         for (q in usernames){
