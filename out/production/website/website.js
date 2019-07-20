@@ -63,7 +63,7 @@ var website = function (_, Kotlin) {
   function map(usernamesJ, entriesJ) {
     var tmp$;
     println('usernamesJ:' + usernamesJ);
-    println('entriesJ:' + entriesJ);
+    println('entriesJ:' + entriesJ + ' AOEU');
     var usernames = JSON.parse(usernamesJ);
     var getUsernameForUUID = map$getUsernameForUUID(usernames);
     var entries = JSON.parse(entriesJ);
