@@ -4,10 +4,10 @@ if (typeof kotlin === 'undefined') {
 var website = function (_, Kotlin) {
   'use strict';
   var Kind_CLASS = Kotlin.Kind.CLASS;
+  var println = Kotlin.kotlin.io.println_s8jyv4$;
   var iterator = Kotlin.kotlin.js.iterator_s8jyvk$;
   var ensureNotNull = Kotlin.ensureNotNull;
   var Unit = Kotlin.kotlin.Unit;
-  var println = Kotlin.kotlin.io.println_s8jyv4$;
   var throwCCE = Kotlin.throwCCE;
   var appendText = Kotlin.kotlin.dom.appendText_46n0ku$;
   var addClass = Kotlin.kotlin.dom.addClass_hhb33f$;
@@ -62,6 +62,8 @@ var website = function (_, Kotlin) {
   }
   function map(usernamesJ, entriesJ) {
     var tmp$;
+    println('usernamesJ:' + usernamesJ);
+    println('entriesJ:' + entriesJ);
     var usernames = JSON.parse(usernamesJ);
     var getUsernameForUUID = map$getUsernameForUUID(usernames);
     var entries = JSON.parse(entriesJ);
