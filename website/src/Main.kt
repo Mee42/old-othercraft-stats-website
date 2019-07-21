@@ -61,6 +61,9 @@ fun getList(callback: (List<LogEntry>) -> Unit) {
     }
 }
 
+
+
+
 fun main() {
     println("u shouldn't be here.\ngood for you.")
 
@@ -72,7 +75,7 @@ fun main() {
     showHide.onclick = {
         if (table.style.display === "none") {
             table.style.display = ""
-            showHide.innerText = "hide table"
+            showHide.innerText = " hide table"
         } else {
             table.style.display = "none"
             showHide.innerText = "show table"
@@ -80,20 +83,21 @@ fun main() {
     }
 
     getList {
-
-        val header = table.insertRow()
-
-
-        header.insertCell().appendText("Username").addClass("header")
-        header.insertCell().appendText("Duration").addClass("header")
-        header.insertCell().appendText("Time logged off").addClass("header")
-
-        for (log in it) {
-            val tr = table.insertRow()
-            tr.insertCell().appendText(log.username)
-            val d = log.msDuration
-            tr.insertCell().appendText(Duration(js("d / 1000").toString().toDouble().toLong()).toString())
-            tr.insertCell().appendText(Date(milliseconds = log.time).toDateString())
-        }
+        chart1(it)
+        run {
+            val header = table.insertRow()
+            header.insertCell().appendText("Username").addClass("header")
+            header.insertCell().appendText("Duration").addClass("header")
+            header.insertCell().appendText("Time logged off").addClass("header")
+            for (log in it) {
+                val tr = table.insertRow()
+                tr.insertCell().appendText(log.username)
+                val d = log.msDuration
+                d.toString()
+                tr.insertCell().appendText(Duration(js("d / 1000").toString().toDouble().toLong()).toString())
+                tr.insertCell().appendText(Date(milliseconds = log.time).toDateString())
+            }
+        }//table
     }
 }
+

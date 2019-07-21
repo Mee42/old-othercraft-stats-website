@@ -50,15 +50,40 @@ tr:hover {
     text-align: center;
 }
 
+footer {
+    background-color: #eee;
+}
+
+header {
+    margin: 40px;
+    align-self: center;
+    text-align: center;
+}
+
+article {
+    margin:40px auto;
+    max-width:650px;
+    line-height:1.6;
+    font-size:18px;
+    color:#444;
+    padding:010px;
+    background-color: #eee;
+}
+
 
 body {
     background-color: #eee;
 }
 
+h1,h2,h3{
+    line-height:1.2
+}
+
+
 #table-toggle {
     float:left;
-    width: 40%;
-    margin-left: 30%;
-    margin-right: 30%
+    width: 30%;
+    margin-left: 35%;
+    margin-right: 35%
 }
 

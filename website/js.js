@@ -1,5 +1,12 @@
 
 
+function plotBarChart(dom,chart) {
+    console.log(chart);
+    Highcharts.chart(dom,chart)
+}
+
+
+
 function getUsernames(callback) {
     var client = new XMLHttpRequest();
     client.open('GET', 'res/whitelist.json');
