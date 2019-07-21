@@ -25,7 +25,7 @@ function getEntries(callback) {
             if (client.responseText === ''){
                 return
             }
-            called = true;
+            // called = true;
             callback(client.responseText);
         }
     };
