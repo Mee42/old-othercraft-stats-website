@@ -84,6 +84,22 @@ fun main() {
 
     getList {
         charts(it)
+        document.getElementById("totalHours")!!.textContent = it
+                .map { e -> e.msDuration }
+                .fold(0L){ a,b -> js("a + b").toString().toLong() }
+                .toString()
+                .toInt()
+                .div(1000 * 60)
+                .toDouble()
+                .div(60)
+                .times(100)
+                .toString()
+                .replace(Regex("""\..*"""),"")
+                .toInt()
+                .div(100)
+                .toString()
+                .concat(" Hours total")
+
         run {
             val header = table.insertRow()
             header.insertCell().appendText("Username").addClass("header")

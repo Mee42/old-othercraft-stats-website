@@ -25,6 +25,9 @@ var website = function (_, Kotlin) {
   var Unit = Kotlin.kotlin.Unit;
   var println = Kotlin.kotlin.io.println_s8jyv4$;
   var throwCCE = Kotlin.throwCCE;
+  var L0 = Kotlin.Long.ZERO;
+  var toLong = Kotlin.kotlin.text.toLong_pdl1vz$;
+  var Regex_init = Kotlin.kotlin.text.Regex_init_61zpoe$;
   var appendText = Kotlin.kotlin.dom.appendText_46n0ku$;
   var addClass = Kotlin.kotlin.dom.addClass_hhb33f$;
   var toDouble = Kotlin.kotlin.text.toDouble_pdl1vz$;
@@ -339,15 +342,34 @@ var website = function (_, Kotlin) {
   function main$lambda_0(closure$table) {
     return function (it) {
       charts(it);
+      var tmp$ = ensureNotNull(document.getElementById('totalHours'));
+      var destination = ArrayList_init_0(collectionSizeOrDefault(it, 10));
+      var tmp$_0;
+      tmp$_0 = it.iterator();
+      while (tmp$_0.hasNext()) {
+        var item = tmp$_0.next();
+        destination.add_11rb$(item.msDuration);
+      }
+      var tmp$_1;
+      var accumulator = L0;
+      tmp$_1 = destination.iterator();
+      while (tmp$_1.hasNext()) {
+        var element = tmp$_1.next();
+        accumulator = toLong((accumulator + element).toString());
+      }
+      var $receiver = ((toInt(accumulator.toString()) / 60000 | 0) / 60 * 100).toString();
+      var $receiver_0 = (toInt(Regex_init('\\..*').replace_x2uqeu$($receiver, '')) / 100 | 0).toString();
+      var str = ' Hours total';
+      tmp$.textContent = $receiver_0.concat(str);
       var closure$table_0 = closure$table;
-      var tmp$;
+      var tmp$_2;
       var header = closure$table_0.insertRow();
       addClass(appendText(header.insertCell(), 'Username'), ['header']);
       addClass(appendText(header.insertCell(), 'Duration'), ['header']);
       addClass(appendText(header.insertCell(), 'Time logged off'), ['header']);
-      tmp$ = it.iterator();
-      while (tmp$.hasNext()) {
-        var log = tmp$.next();
+      tmp$_2 = it.iterator();
+      while (tmp$_2.hasNext()) {
+        var log = tmp$_2.next();
         var tr = closure$table_0.insertRow();
         appendText(tr.insertCell(), log.username);
         var d = log.msDuration;

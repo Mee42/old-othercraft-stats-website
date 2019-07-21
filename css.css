@@ -44,7 +44,7 @@ tr:hover {
 
 
 /* Style the header */
-.header {
+td .header {
     background-color: #f44336;
     color: white;
     text-align: center;
@@ -54,13 +54,13 @@ footer {
     background-color: #eee;
 }
 
-header {
+.header {
     margin: 40px;
     align-self: center;
     text-align: center;
 }
 
-article {
+.everything {
     margin:40px auto;
     max-width:1000px;
     line-height:1.6;
