@@ -16,14 +16,18 @@ fun chart1(list: List<LogEntry>) {
                             .div(1000 * 60)) }
             .sortedByDescending { it.time }
 
-    val chart = dyn {
+    val totalTimeChart = dyn {
         chart = dyn {
             type = "bar"
         }
         title = dyn {
             text = "Total Time"
         }
-        yAxis = dyn {}
+        yAxis = arrayOf(dyn {
+
+        },dyn {
+            opposite = true
+        })
         xAxis = dyn {
             categories = users.map { it.name }.toTypedArray()
         }
@@ -31,9 +35,11 @@ fun chart1(list: List<LogEntry>) {
             dyn {
                 name = "Total Minutes"
                 data = users.map { it.time }.toTypedArray()
+                yAxis = 0
             },
             dyn {
                 name = "Average Minutes"
+                yAxis = 1
                 data = users//use users te preserve order
                         .map {
                             list.filter { a -> a.username == it.name }
@@ -45,7 +51,7 @@ fun chart1(list: List<LogEntry>) {
             }
         )
     }
-    plotBarChart("chart1",chart)
+    plotBarChart("timeChart",totalTimeChart)
 
 }
 

@@ -106,8 +106,10 @@ var website = function (_, Kotlin) {
     o_1.text = 'Total Time';
     o.title = o_1;
     var o_2 = {};
-    o.yAxis = o_2;
     var o_3 = {};
+    o_3.opposite = true;
+    o.yAxis = [o_2, o_3];
+    var o_4 = {};
     var destination_2 = ArrayList_init_0(collectionSizeOrDefault(users, 10));
     var tmp$_5;
     tmp$_5 = users.iterator();
@@ -115,10 +117,10 @@ var website = function (_, Kotlin) {
       var item_1 = tmp$_5.next();
       destination_2.add_11rb$(item_1.name);
     }
-    o_3.categories = copyToArray(destination_2);
-    o.xAxis = o_3;
-    var o_4 = {};
-    o_4.name = 'Total Minutes';
+    o_4.categories = copyToArray(destination_2);
+    o.xAxis = o_4;
+    var o_5 = {};
+    o_5.name = 'Total Minutes';
     var destination_3 = ArrayList_init_0(collectionSizeOrDefault(users, 10));
     var tmp$_6;
     tmp$_6 = users.iterator();
@@ -126,9 +128,11 @@ var website = function (_, Kotlin) {
       var item_2 = tmp$_6.next();
       destination_3.add_11rb$(item_2.time);
     }
-    o_4.data = copyToArray(destination_3);
-    var o_5 = {};
-    o_5.name = 'Average Minutes';
+    o_5.data = copyToArray(destination_3);
+    o_5.yAxis = 0;
+    var o_6 = {};
+    o_6.name = 'Average Minutes';
+    o_6.yAxis = 1;
     var destination_4 = ArrayList_init_0(collectionSizeOrDefault(users, 10));
     var tmp$_7;
     tmp$_7 = users.iterator();
@@ -152,10 +156,10 @@ var website = function (_, Kotlin) {
       }
       tmp$_8.call(destination_4, numberToInt(average(destination_6) / 60000));
     }
-    o_5.data = copyToArray(destination_4);
-    o.series = [o_4, o_5];
-    var chart = o;
-    plotBarChart('chart1', chart);
+    o_6.data = copyToArray(destination_4);
+    o.series = [o_5, o_6];
+    var totalTimeChart = o;
+    plotBarChart('timeChart', totalTimeChart);
   }
   var dyn = defineInlineFunction('website.dyn_5ij4lk$', function (init) {
     var o = {};
