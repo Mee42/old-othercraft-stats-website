@@ -2,19 +2,59 @@
 
 external fun plotBarChart(dom: String,obj: dynamic)
 
-fun chart1(list: List<LogEntry>) {
-    class UserPair(val name :String, val time :Int)
+class UserPair(val name :String, val time :Int)
 
 
-    val users = list
-            .distinctBy { it.username }
-            .map { it.username }
-            .map { username -> UserPair(
-                    name = username,
-                    time = list.filter { it.username == username }
-                            .sumBy { it.msDuration.toString().toInt() }
-                            .div(1000 * 60)) }
-            .sortedByDescending { it.time }
+fun charts(list: List<LogEntry>) {
+    averageTimeChart(list)
+    totalTimeChart(list)
+
+
+}
+
+fun averageTimeChart(list: List<LogEntry>){
+       val users = list.toUserPairs()
+               .sortedByDescending {
+                   list.filter { a -> a.username == it.name }
+                           .map { it.msDuration }
+                           .average()
+               }
+
+    val averageTimeChart = dyn {
+        chart = dyn {
+            type = "bar"
+        }
+        title = dyn {
+            text = "Average Session Time"
+        }
+        yAxis = arrayOf(dyn {})
+        xAxis = dyn {
+            categories = users.map { it.name }.toTypedArray()
+        }
+        series = arrayOf(
+                dyn {
+                    name = "Average minutes per session"
+                    data = users
+                            .map {
+                                list.filter { a -> a.username == it.name }
+                                        .map { it.msDuration }
+                                        .average()
+                                        .div(1000 * 60)
+                                        .toInt()
+                            }.toTypedArray()
+                }
+        )
+    }
+
+    plotBarChart("averageTimeChart",averageTimeChart)
+
+}
+
+fun totalTimeChart(list: List<LogEntry>){
+
+
+    val users = list.toUserPairs().sortedByDescending { it.time }
+
 
     val totalTimeChart = dyn {
         chart = dyn {
@@ -23,40 +63,33 @@ fun chart1(list: List<LogEntry>) {
         title = dyn {
             text = "Total Time"
         }
-        yAxis = arrayOf(dyn {
-
-        },dyn {
-            opposite = true
-        })
+        yAxis = arrayOf(dyn {})
         xAxis = dyn {
             categories = users.map { it.name }.toTypedArray()
         }
         series = arrayOf(
-            dyn {
-                name = "Total Minute, All Time"
-                data = users.map { it.time }.toTypedArray()
-                yAxis = 0
-            },
-            dyn {
-                name = "Average Minutes, Per Session"
-                yAxis = 0
-                data = users//use users te preserve order
-                        .map {
-                            list.filter { a -> a.username == it.name }
-                                    .map { it.msDuration }
-                                    .average()
-                                    .div(1000 * 60)
-                                    .toInt()
-                        }.toTypedArray()
-            }
+                dyn {
+                    name = "Total minutes, all time"
+                    data = users.map { it.time }.toTypedArray()
+                    yAxis = 0
+                }
         )
     }
-    plotBarChart("timeChart",totalTimeChart)
 
+
+    plotBarChart("totalTimeChart",totalTimeChart)
 }
 
 
-
+fun List<LogEntry>.toUserPairs():List<UserPair>{
+    return distinctBy { it.username }
+            .map { it.username }
+            .map { username -> UserPair(
+                    name = username,
+                    time = filter { it.username == username }
+                            .sumBy { it.msDuration.toString().toInt() }
+                            .div(1000 * 60)) }
+}
 
 
 inline fun dyn(init: dynamic.() -> Unit): dynamic {

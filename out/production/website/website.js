@@ -6,18 +6,18 @@ var website = function (_, Kotlin) {
   var $$importsForInline$$ = _.$$importsForInline$$ || (_.$$importsForInline$$ = {});
   var Kind_CLASS = Kotlin.Kind.CLASS;
   var equals = Kotlin.equals;
-  var toInt = Kotlin.kotlin.text.toInt_pdl1vz$;
   var average = Kotlin.kotlin.collections.average_dmxgdv$;
   var numberToInt = Kotlin.numberToInt;
+  var toInt = Kotlin.kotlin.text.toInt_pdl1vz$;
   var defineInlineFunction = Kotlin.defineInlineFunction;
   var wrapFunction = Kotlin.wrapFunction;
   var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
   var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
   var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
   var copyToArray = Kotlin.kotlin.collections.copyToArray;
-  var HashSet_init = Kotlin.kotlin.collections.HashSet_init_287e2$;
   var sortedWith = Kotlin.kotlin.collections.sortedWith_eknfly$;
   var Comparator = Kotlin.kotlin.Comparator;
+  var HashSet_init = Kotlin.kotlin.collections.HashSet_init_287e2$;
   var abs = Kotlin.kotlin.math.abs_s8cxhz$;
   var toString = Kotlin.toString;
   var iterator = Kotlin.kotlin.js.iterator_s8jyvk$;
@@ -44,32 +44,144 @@ var website = function (_, Kotlin) {
       };
     };
   });
-  function chart1$UserPair(name, time) {
+  function UserPair(name, time) {
     this.name = name;
     this.time = time;
   }
-  chart1$UserPair.$metadata$ = {
+  UserPair.$metadata$ = {
     kind: Kind_CLASS,
     simpleName: 'UserPair',
     interfaces: []
   };
-  function chart1$lambda(it) {
+  function charts(list) {
+    averageTimeChart(list);
+    totalTimeChart(list);
+  }
+  function averageTimeChart$lambda(closure$list) {
+    return function (it) {
+      var $receiver = closure$list;
+      var destination = ArrayList_init();
+      var tmp$;
+      tmp$ = $receiver.iterator();
+      while (tmp$.hasNext()) {
+        var element = tmp$.next();
+        if (equals(element.username, it.name))
+          destination.add_11rb$(element);
+      }
+      var destination_0 = ArrayList_init_0(collectionSizeOrDefault(destination, 10));
+      var tmp$_0;
+      tmp$_0 = destination.iterator();
+      while (tmp$_0.hasNext()) {
+        var item = tmp$_0.next();
+        destination_0.add_11rb$(item.msDuration);
+      }
+      return average(destination_0);
+    };
+  }
+  function averageTimeChart(list) {
+    var users = sortedWith(toUserPairs(list), new Comparator$ObjectLiteral(compareByDescending$lambda(averageTimeChart$lambda(list))));
+    var o = {};
+    var o_0 = {};
+    o_0.type = 'bar';
+    o.chart = o_0;
+    var o_1 = {};
+    o_1.text = 'Average Session Time';
+    o.title = o_1;
+    var o_2 = {};
+    o.yAxis = [o_2];
+    var o_3 = {};
+    var destination = ArrayList_init_0(collectionSizeOrDefault(users, 10));
+    var tmp$;
+    tmp$ = users.iterator();
+    while (tmp$.hasNext()) {
+      var item = tmp$.next();
+      destination.add_11rb$(item.name);
+    }
+    o_3.categories = copyToArray(destination);
+    o.xAxis = o_3;
+    var o_4 = {};
+    o_4.name = 'Average minutes per session';
+    var destination_0 = ArrayList_init_0(collectionSizeOrDefault(users, 10));
+    var tmp$_0;
+    tmp$_0 = users.iterator();
+    while (tmp$_0.hasNext()) {
+      var item_0 = tmp$_0.next();
+      var tmp$_1 = destination_0.add_11rb$;
+      var destination_1 = ArrayList_init();
+      var tmp$_2;
+      tmp$_2 = list.iterator();
+      while (tmp$_2.hasNext()) {
+        var element = tmp$_2.next();
+        if (equals(element.username, item_0.name))
+          destination_1.add_11rb$(element);
+      }
+      var destination_2 = ArrayList_init_0(collectionSizeOrDefault(destination_1, 10));
+      var tmp$_3;
+      tmp$_3 = destination_1.iterator();
+      while (tmp$_3.hasNext()) {
+        var item_1 = tmp$_3.next();
+        destination_2.add_11rb$(item_1.msDuration);
+      }
+      tmp$_1.call(destination_0, numberToInt(average(destination_2) / 60000));
+    }
+    o_4.data = copyToArray(destination_0);
+    o.series = [o_4];
+    var averageTimeChart = o;
+    plotBarChart('averageTimeChart', averageTimeChart);
+  }
+  function totalTimeChart$lambda(it) {
     return it.time;
   }
-  function chart1(list) {
+  function totalTimeChart(list) {
+    var users = sortedWith(toUserPairs(list), new Comparator$ObjectLiteral(compareByDescending$lambda(totalTimeChart$lambda)));
+    var o = {};
+    var o_0 = {};
+    o_0.type = 'bar';
+    o.chart = o_0;
+    var o_1 = {};
+    o_1.text = 'Total Time';
+    o.title = o_1;
+    var o_2 = {};
+    o.yAxis = [o_2];
+    var o_3 = {};
+    var destination = ArrayList_init_0(collectionSizeOrDefault(users, 10));
+    var tmp$;
+    tmp$ = users.iterator();
+    while (tmp$.hasNext()) {
+      var item = tmp$.next();
+      destination.add_11rb$(item.name);
+    }
+    o_3.categories = copyToArray(destination);
+    o.xAxis = o_3;
+    var o_4 = {};
+    o_4.name = 'Total minutes, all time';
+    var destination_0 = ArrayList_init_0(collectionSizeOrDefault(users, 10));
+    var tmp$_0;
+    tmp$_0 = users.iterator();
+    while (tmp$_0.hasNext()) {
+      var item_0 = tmp$_0.next();
+      destination_0.add_11rb$(item_0.time);
+    }
+    o_4.data = copyToArray(destination_0);
+    o_4.yAxis = 0;
+    o.series = [o_4];
+    var totalTimeChart = o;
+    plotBarChart('totalTimeChart', totalTimeChart);
+  }
+  function toUserPairs($receiver) {
     var tmp$;
     var set = HashSet_init();
-    var list_0 = ArrayList_init();
-    tmp$ = list.iterator();
+    var list = ArrayList_init();
+    tmp$ = $receiver.iterator();
     while (tmp$.hasNext()) {
       var e = tmp$.next();
       var key = e.username;
       if (set.add_11rb$(key))
-        list_0.add_11rb$(e);
+        list.add_11rb$(e);
     }
-    var destination = ArrayList_init_0(collectionSizeOrDefault(list_0, 10));
+    var destination = ArrayList_init_0(collectionSizeOrDefault(list, 10));
     var tmp$_0;
-    tmp$_0 = list_0.iterator();
+    tmp$_0 = list.iterator();
     while (tmp$_0.hasNext()) {
       var item = tmp$_0.next();
       destination.add_11rb$(item.username);
@@ -82,7 +194,7 @@ var website = function (_, Kotlin) {
       var tmp$_2 = destination_0.add_11rb$;
       var destination_1 = ArrayList_init();
       var tmp$_3;
-      tmp$_3 = list.iterator();
+      tmp$_3 = $receiver.iterator();
       while (tmp$_3.hasNext()) {
         var element = tmp$_3.next();
         if (equals(element.username, item_0))
@@ -95,71 +207,9 @@ var website = function (_, Kotlin) {
         var element_0 = tmp$_4.next();
         sum = sum + toInt(element_0.msDuration.toString()) | 0;
       }
-      tmp$_2.call(destination_0, new chart1$UserPair(item_0, sum / 60000 | 0));
+      tmp$_2.call(destination_0, new UserPair(item_0, sum / 60000 | 0));
     }
-    var users = sortedWith(destination_0, new Comparator$ObjectLiteral(compareByDescending$lambda(chart1$lambda)));
-    var o = {};
-    var o_0 = {};
-    o_0.type = 'bar';
-    o.chart = o_0;
-    var o_1 = {};
-    o_1.text = 'Total Time';
-    o.title = o_1;
-    var o_2 = {};
-    var o_3 = {};
-    o_3.opposite = true;
-    o.yAxis = [o_2, o_3];
-    var o_4 = {};
-    var destination_2 = ArrayList_init_0(collectionSizeOrDefault(users, 10));
-    var tmp$_5;
-    tmp$_5 = users.iterator();
-    while (tmp$_5.hasNext()) {
-      var item_1 = tmp$_5.next();
-      destination_2.add_11rb$(item_1.name);
-    }
-    o_4.categories = copyToArray(destination_2);
-    o.xAxis = o_4;
-    var o_5 = {};
-    o_5.name = 'Total Minute, All Time';
-    var destination_3 = ArrayList_init_0(collectionSizeOrDefault(users, 10));
-    var tmp$_6;
-    tmp$_6 = users.iterator();
-    while (tmp$_6.hasNext()) {
-      var item_2 = tmp$_6.next();
-      destination_3.add_11rb$(item_2.time);
-    }
-    o_5.data = copyToArray(destination_3);
-    o_5.yAxis = 0;
-    var o_6 = {};
-    o_6.name = 'Average Minutes, Per Session';
-    o_6.yAxis = 0;
-    var destination_4 = ArrayList_init_0(collectionSizeOrDefault(users, 10));
-    var tmp$_7;
-    tmp$_7 = users.iterator();
-    while (tmp$_7.hasNext()) {
-      var item_3 = tmp$_7.next();
-      var tmp$_8 = destination_4.add_11rb$;
-      var destination_5 = ArrayList_init();
-      var tmp$_9;
-      tmp$_9 = list.iterator();
-      while (tmp$_9.hasNext()) {
-        var element_1 = tmp$_9.next();
-        if (equals(element_1.username, item_3.name))
-          destination_5.add_11rb$(element_1);
-      }
-      var destination_6 = ArrayList_init_0(collectionSizeOrDefault(destination_5, 10));
-      var tmp$_10;
-      tmp$_10 = destination_5.iterator();
-      while (tmp$_10.hasNext()) {
-        var item_4 = tmp$_10.next();
-        destination_6.add_11rb$(item_4.msDuration);
-      }
-      tmp$_8.call(destination_4, numberToInt(average(destination_6) / 60000));
-    }
-    o_6.data = copyToArray(destination_4);
-    o.series = [o_5, o_6];
-    var totalTimeChart = o;
-    plotBarChart('timeChart', totalTimeChart);
+    return destination_0;
   }
   var dyn = defineInlineFunction('website.dyn_5ij4lk$', function (init) {
     var o = {};
@@ -288,7 +338,7 @@ var website = function (_, Kotlin) {
   }
   function main$lambda_0(closure$table) {
     return function (it) {
-      chart1(it);
+      charts(it);
       var closure$table_0 = closure$table;
       var tmp$;
       var header = closure$table_0.insertRow();
@@ -316,8 +366,12 @@ var website = function (_, Kotlin) {
     showHide.onclick = main$lambda(table, showHide);
     getList(main$lambda_0(table));
   }
+  _.UserPair = UserPair;
+  _.charts_7u896l$ = charts;
   $$importsForInline$$.website = _;
-  _.chart1_7u896l$ = chart1;
+  _.averageTimeChart_7u896l$ = averageTimeChart;
+  _.totalTimeChart_7u896l$ = totalTimeChart;
+  _.toUserPairs_txrqs2$ = toUserPairs;
   _.dyn_5ij4lk$ = dyn;
   _.Duration = Duration;
   _.LogEntry = LogEntry;

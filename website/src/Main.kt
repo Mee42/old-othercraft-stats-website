@@ -83,7 +83,7 @@ fun main() {
     }
 
     getList {
-        chart1(it)
+        charts(it)
         run {
             val header = table.insertRow()
             header.insertCell().appendText("Username").addClass("header")
