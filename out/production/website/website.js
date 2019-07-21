@@ -3,15 +3,32 @@ if (typeof kotlin === 'undefined') {
 }
 var website = function (_, Kotlin) {
   'use strict';
+  var abs = Kotlin.kotlin.math.abs_s8cxhz$;
+  var toString = Kotlin.toString;
   var Kind_CLASS = Kotlin.Kind.CLASS;
-  var println = Kotlin.kotlin.io.println_s8jyv4$;
   var iterator = Kotlin.kotlin.js.iterator_s8jyvk$;
   var ensureNotNull = Kotlin.ensureNotNull;
   var Unit = Kotlin.kotlin.Unit;
+  var println = Kotlin.kotlin.io.println_s8jyv4$;
   var throwCCE = Kotlin.throwCCE;
   var appendText = Kotlin.kotlin.dom.appendText_46n0ku$;
   var addClass = Kotlin.kotlin.dom.addClass_hhb33f$;
+  var toDouble = Kotlin.kotlin.text.toDouble_pdl1vz$;
   var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
+  function Duration(seconds) {
+    this.seconds_0 = seconds;
+  }
+  Duration.prototype.toString = function () {
+    var seconds = this.seconds_0;
+    var absSeconds = abs(seconds);
+    var positive = '' + toString(absSeconds.div(Kotlin.Long.fromInt(3600))) + 'h ' + toString(absSeconds.modulo(Kotlin.Long.fromInt(3600)).div(Kotlin.Long.fromInt(60))) + 'm ' + toString(absSeconds.modulo(Kotlin.Long.fromInt(60))) + 's';
+    return seconds.toNumber() < 0 ? '-' + positive : positive;
+  };
+  Duration.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'Duration',
+    interfaces: []
+  };
   function LogEntry(username, time, msDuration) {
     this.username = username;
     this.time = time;
@@ -62,8 +79,6 @@ var website = function (_, Kotlin) {
   }
   function map(usernamesJ, entriesJ) {
     var tmp$;
-    println('usernamesJ:' + usernamesJ);
-    println('entriesJ:' + entriesJ + ' AOEU');
     var usernames = JSON.parse(usernamesJ);
     var getUsernameForUUID = map$getUsernameForUUID(usernames);
     var entries = JSON.parse(entriesJ);
@@ -107,27 +122,47 @@ var website = function (_, Kotlin) {
     getEntries(getList$lambda(entries, test));
     getUsernames(getList$lambda_0(usernames, test));
   }
-  function main$lambda(it) {
-    var tmp$, tmp$_0;
-    var table = Kotlin.isType(tmp$ = document.getElementById('table'), HTMLTableElement) ? tmp$ : throwCCE();
-    var header = table.insertRow();
-    addClass(appendText(header.insertCell(), 'Username'), ['header']);
-    addClass(appendText(header.insertCell(), 'Duration'), ['header']);
-    addClass(appendText(header.insertCell(), 'Time logged off'), ['header']);
-    tmp$_0 = it.iterator();
-    while (tmp$_0.hasNext()) {
-      var log = tmp$_0.next();
-      var tr = table.insertRow();
-      appendText(tr.insertCell(), log.username);
-      appendText(tr.insertCell(), log.msDuration.toString());
-      appendText(tr.insertCell(), log.time.toString());
-    }
-    return Unit;
+  function main$lambda(closure$table, closure$showHide) {
+    return function (it) {
+      if (closure$table.style.display === 'none') {
+        closure$table.style.display = '';
+        closure$showHide.innerText = 'hide table';
+      }
+       else {
+        closure$table.style.display = 'none';
+        closure$showHide.innerText = 'show table';
+      }
+      return Unit;
+    };
+  }
+  function main$lambda_0(closure$table) {
+    return function (it) {
+      var tmp$;
+      var header = closure$table.insertRow();
+      addClass(appendText(header.insertCell(), 'Username'), ['header']);
+      addClass(appendText(header.insertCell(), 'Duration'), ['header']);
+      addClass(appendText(header.insertCell(), 'Time logged off'), ['header']);
+      tmp$ = it.iterator();
+      while (tmp$.hasNext()) {
+        var log = tmp$.next();
+        var tr = closure$table.insertRow();
+        appendText(tr.insertCell(), log.username);
+        var d = log.msDuration;
+        appendText(tr.insertCell(), (new Duration(Kotlin.Long.fromNumber(toDouble((d / 1000).toString())))).toString());
+        appendText(tr.insertCell(), (new Date(log.time)).toDateString());
+      }
+      return Unit;
+    };
   }
   function main() {
-    println('mhm');
-    getList(main$lambda);
+    var tmp$, tmp$_0;
+    println("u shouldn't be here.\ngood for you.");
+    var showHide = Kotlin.isType(tmp$ = ensureNotNull(document.getElementById('table-toggle')), HTMLButtonElement) ? tmp$ : throwCCE();
+    var table = Kotlin.isType(tmp$_0 = document.getElementById('entire-table'), HTMLTableElement) ? tmp$_0 : throwCCE();
+    showHide.onclick = main$lambda(table, showHide);
+    getList(main$lambda_0(table));
   }
+  _.Duration = Duration;
   _.LogEntry = LogEntry;
   _.map_puj7f4$ = map;
   _.getList_dzsxne$ = getList;

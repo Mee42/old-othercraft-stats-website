@@ -1,25 +1,25 @@
+import org.w3c.dom.HTMLButtonElement
 import org.w3c.dom.HTMLTableElement
 import kotlin.browser.document
 import kotlin.dom.addClass
 import kotlin.dom.appendText
+import kotlin.js.Date
 
-external fun getUsernames(callback :(String) -> Unit)
-external fun getEntries(callback :(String) -> Unit)
+external fun getUsernames(callback: (String) -> Unit)
+external fun getEntries(callback: (String) -> Unit)
 
 data class LogEntry(
-        val username :String,
+        val username: String,
         val time: Long,
         val msDuration: Long)
 
 
-fun map(usernamesJ: String,entriesJ: String):List<LogEntry>{
-    println("usernamesJ:$usernamesJ")
-    println("entriesJ:$entriesJ AOEU")
+fun map(usernamesJ: String, entriesJ: String): List<LogEntry> {
 
     val usernames = JSON.parse<dynamic>(usernamesJ)
-    fun getUsernameForUUID(uuid: String):String{
-        for (q in usernames){
-            if (q.uuid == uuid){
+    fun getUsernameForUUID(uuid: String): String {
+        for (q in usernames) {
+            if (q.uuid == uuid) {
                 return q.name.unsafeCast<String>()
             }
         }
@@ -30,7 +30,7 @@ fun map(usernamesJ: String,entriesJ: String):List<LogEntry>{
 
     val list = mutableListOf<LogEntry>()
 
-    for (entry in entries){
+    for (entry in entries) {
         val timeLogged = entry.timeLogged.unsafeCast<Long>()
         val millis = entry.millis.unsafeCast<Long>()
         val uuid = entry.uuid.unsafeCast<String>()
@@ -42,13 +42,13 @@ fun map(usernamesJ: String,entriesJ: String):List<LogEntry>{
     return list
 }
 
-fun getList(callback: (List<LogEntry>) -> Unit){
+fun getList(callback: (List<LogEntry>) -> Unit) {
     var usernames: String? = null
     var entries: String? = null
 
-    fun test(){
-        if (usernames != null && entries != null){
-            callback(map(usernames!!,entries!!))
+    fun test() {
+        if (usernames != null && entries != null) {
+            callback(map(usernames!!, entries!!))
         }
     }
     getEntries {
@@ -62,21 +62,38 @@ fun getList(callback: (List<LogEntry>) -> Unit){
 }
 
 fun main() {
-    println("mhm")
+    println("u shouldn't be here.\ngood for you.")
+
+    val showHide = document.getElementById("table-toggle")!! as HTMLButtonElement
+
+    val table = document.getElementById("entire-table") as HTMLTableElement
+
+
+    showHide.onclick = {
+        if (table.style.display === "none") {
+            table.style.display = ""
+            showHide.innerText = "hide table"
+        } else {
+            table.style.display = "none"
+            showHide.innerText = "show table"
+        }
+    }
+
     getList {
-        val table = document.getElementById("table") as HTMLTableElement
 
         val header = table.insertRow()
+
+
         header.insertCell().appendText("Username").addClass("header")
         header.insertCell().appendText("Duration").addClass("header")
         header.insertCell().appendText("Time logged off").addClass("header")
 
-
-        for (log in it){
+        for (log in it) {
             val tr = table.insertRow()
             tr.insertCell().appendText(log.username)
-            tr.insertCell().appendText(log.msDuration.toString())
-            tr.insertCell().appendText(log.time.toString())
+            val d = log.msDuration
+            tr.insertCell().appendText(Duration(js("d / 1000").toString().toDouble().toLong()).toString())
+            tr.insertCell().appendText(Date(milliseconds = log.time).toDateString())
         }
     }
 }
