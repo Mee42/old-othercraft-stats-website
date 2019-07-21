@@ -64,20 +64,23 @@ fun getList(callback: (List<LogEntry>) -> Unit){
 
 fun main() {
     println("hmmm")
-    getList {
-        val table = document.getElementById("table") as HTMLTableElement
-
-        val header = table.insertRow()
-        header.insertCell().appendText("Username").addClass("header")
-        header.insertCell().appendText("Duration").addClass("header")
-        header.insertCell().appendText("Time logged off").addClass("header")
-
-
-        for (log in it){
-            val tr = table.insertRow()
-            tr.insertCell().appendText(log.username)
-            tr.insertCell().appendText(log.msDuration.toString())
-            tr.insertCell().appendText(log.time.toString())
-        }
+    getEntries {
+        println("START${it}END")
     }
+//    getList {
+//        val table = document.getElementById("table") as HTMLTableElement
+//
+//        val header = table.insertRow()
+//        header.insertCell().appendText("Username").addClass("header")
+//        header.insertCell().appendText("Duration").addClass("header")
+//        header.insertCell().appendText("Time logged off").addClass("header")
+//
+//
+//        for (log in it){
+//            val tr = table.insertRow()
+//            tr.insertCell().appendText(log.username)
+//            tr.insertCell().appendText(log.msDuration.toString())
+//            tr.insertCell().appendText(log.time.toString())
+//        }
+//    }
 }

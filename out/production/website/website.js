@@ -8,9 +8,6 @@ var website = function (_, Kotlin) {
   var iterator = Kotlin.kotlin.js.iterator_s8jyvk$;
   var ensureNotNull = Kotlin.ensureNotNull;
   var Unit = Kotlin.kotlin.Unit;
-  var throwCCE = Kotlin.throwCCE;
-  var appendText = Kotlin.kotlin.dom.appendText_46n0ku$;
-  var addClass = Kotlin.kotlin.dom.addClass_hhb33f$;
   var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
   function LogEntry(username, time, msDuration) {
     this.username = username;
@@ -108,25 +105,12 @@ var website = function (_, Kotlin) {
     getUsernames(getList$lambda_0(usernames, test));
   }
   function main$lambda(it) {
-    var tmp$, tmp$_0;
-    var table = Kotlin.isType(tmp$ = document.getElementById('table'), HTMLTableElement) ? tmp$ : throwCCE();
-    var header = table.insertRow();
-    addClass(appendText(header.insertCell(), 'Username'), ['header']);
-    addClass(appendText(header.insertCell(), 'Duration'), ['header']);
-    addClass(appendText(header.insertCell(), 'Time logged off'), ['header']);
-    tmp$_0 = it.iterator();
-    while (tmp$_0.hasNext()) {
-      var log = tmp$_0.next();
-      var tr = table.insertRow();
-      appendText(tr.insertCell(), log.username);
-      appendText(tr.insertCell(), log.msDuration.toString());
-      appendText(tr.insertCell(), log.time.toString());
-    }
+    println('START' + it + 'END');
     return Unit;
   }
   function main() {
     println('hmmm');
-    getList(main$lambda);
+    getEntries(main$lambda);
   }
   _.LogEntry = LogEntry;
   _.map_puj7f4$ = map;
