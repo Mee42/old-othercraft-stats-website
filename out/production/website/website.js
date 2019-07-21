@@ -120,7 +120,7 @@ var website = function (_, Kotlin) {
     o_4.categories = copyToArray(destination_2);
     o.xAxis = o_4;
     var o_5 = {};
-    o_5.name = 'Total Minutes';
+    o_5.name = 'Total Minute, All Time';
     var destination_3 = ArrayList_init_0(collectionSizeOrDefault(users, 10));
     var tmp$_6;
     tmp$_6 = users.iterator();
@@ -131,8 +131,8 @@ var website = function (_, Kotlin) {
     o_5.data = copyToArray(destination_3);
     o_5.yAxis = 0;
     var o_6 = {};
-    o_6.name = 'Average Minutes';
-    o_6.yAxis = 1;
+    o_6.name = 'Average Minutes, Per Session';
+    o_6.yAxis = 0;
     var destination_4 = ArrayList_init_0(collectionSizeOrDefault(users, 10));
     var tmp$_7;
     tmp$_7 = users.iterator();

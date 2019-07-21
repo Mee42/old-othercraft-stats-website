@@ -33,13 +33,13 @@ fun chart1(list: List<LogEntry>) {
         }
         series = arrayOf(
             dyn {
-                name = "Total Minutes"
+                name = "Total Minute, All Time"
                 data = users.map { it.time }.toTypedArray()
                 yAxis = 0
             },
             dyn {
-                name = "Average Minutes"
-                yAxis = 1
+                name = "Average Minutes, Per Session"
+                yAxis = 0
                 data = users//use users te preserve order
                         .map {
                             list.filter { a -> a.username == it.name }
