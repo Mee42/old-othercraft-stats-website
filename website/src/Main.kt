@@ -13,7 +13,6 @@ data class LogEntry(
 
 
 fun map(usernamesJ: String,entriesJ: String):List<LogEntry>{
-    error("what")
     println("usernamesJ:$usernamesJ")
     println("entriesJ:$entriesJ AOEU")
 
@@ -44,7 +43,6 @@ fun map(usernamesJ: String,entriesJ: String):List<LogEntry>{
 }
 
 fun getList(callback: (List<LogEntry>) -> Unit){
-    error("what version two")
     var usernames: String? = null
     var entries: String? = null
 
@@ -62,7 +60,6 @@ fun getList(callback: (List<LogEntry>) -> Unit){
         test()
     }
 }
-
 
 fun main() {
     println("mhm")

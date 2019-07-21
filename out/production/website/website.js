@@ -5,8 +5,10 @@ var website = function (_, Kotlin) {
   'use strict';
   var Kind_CLASS = Kotlin.Kind.CLASS;
   var println = Kotlin.kotlin.io.println_s8jyv4$;
+  var iterator = Kotlin.kotlin.js.iterator_s8jyvk$;
+  var ensureNotNull = Kotlin.ensureNotNull;
   var Unit = Kotlin.kotlin.Unit;
-  var IllegalStateException_init = Kotlin.kotlin.IllegalStateException_init_pdl1vj$;
+  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
   function LogEntry(username, time, msDuration) {
     this.username = username;
     this.time = time;
@@ -42,11 +44,65 @@ var website = function (_, Kotlin) {
   LogEntry.prototype.equals = function (other) {
     return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.username, other.username) && Kotlin.equals(this.time, other.time) && Kotlin.equals(this.msDuration, other.msDuration)))));
   };
+  function map$getUsernameForUUID(closure$usernames) {
+    return function (uuid) {
+      var tmp$;
+      tmp$ = iterator(closure$usernames);
+      while (tmp$.hasNext()) {
+        var q = tmp$.next();
+        if (q.uuid == uuid) {
+          return q.name;
+        }
+      }
+      return uuid;
+    };
+  }
   function map(usernamesJ, entriesJ) {
-    throw IllegalStateException_init('what'.toString());
+    var tmp$;
+    println('usernamesJ:' + usernamesJ);
+    println('entriesJ:' + entriesJ + ' AOEU');
+    var usernames = JSON.parse(usernamesJ);
+    var getUsernameForUUID = map$getUsernameForUUID(usernames);
+    var entries = JSON.parse(entriesJ);
+    var list = ArrayList_init();
+    tmp$ = iterator(entries);
+    while (tmp$.hasNext()) {
+      var entry = tmp$.next();
+      var timeLogged = entry.timeLogged;
+      var millis = entry.millis;
+      var uuid = entry.uuid;
+      var element = new LogEntry(getUsernameForUUID(uuid), timeLogged, millis);
+      list.add_11rb$(element);
+    }
+    return list;
+  }
+  function getList$test(closure$usernames, closure$entries, closure$callback) {
+    return function () {
+      if (closure$usernames.v != null && closure$entries.v != null) {
+        closure$callback(map(ensureNotNull(closure$usernames.v), ensureNotNull(closure$entries.v)));
+      }
+    };
+  }
+  function getList$lambda(closure$entries, closure$test) {
+    return function (it) {
+      closure$entries.v = it;
+      closure$test();
+      return Unit;
+    };
+  }
+  function getList$lambda_0(closure$usernames, closure$test) {
+    return function (it) {
+      closure$usernames.v = it;
+      closure$test();
+      return Unit;
+    };
   }
   function getList(callback) {
-    throw IllegalStateException_init('what version two'.toString());
+    var usernames = {v: null};
+    var entries = {v: null};
+    var test = getList$test(usernames, entries, callback);
+    getEntries(getList$lambda(entries, test));
+    getUsernames(getList$lambda_0(usernames, test));
   }
   function main$lambda(it) {
     println('START' + it + 'END');

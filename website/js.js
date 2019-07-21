@@ -17,18 +17,9 @@ function getUsernames(callback) {
 }
 
 function getEntries(callback) {
-    var called = false;
     var client = new XMLHttpRequest();
     client.open('GET', 'res/entries.json');
-    client.onreadystatechange = function() {
-        if (called === false){
-            if (client.responseText === ''){
-                return
-            }
-            // called = true;
-            callback(client.responseText);
-        }
-    };
+    client.onload = function() { callback(client.responseText);};
     client.send();
 }
 
