@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="703b5198-56f8-431f-87c7-40996b3f51d6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/carson.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/carson.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/entries.json" beforeDir="false" afterPath="$PROJECT_DIR$/res/entries.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/website/src/Chart.kt" beforeDir="false" afterPath="$PROJECT_DIR$/website/src/Chart.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/website/src/Duration.kt" beforeDir="false" afterPath="$PROJECT_DIR$/website/src/Duration.kt" afterDir="false" />
-    </list>
+    <list default="true" id="703b5198-56f8-431f-87c7-40996b3f51d6" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -56,7 +49,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/kotlin/org/othercraft/Yoink.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="850">
+            <state relative-caret-position="500">
               <caret line="50" column="19" selection-start-line="50" selection-start-column="19" selection-end-line="50" selection-end-column="19" />
               <folding>
                 <element signature="e#24#286#0" expanded="true" />
@@ -393,16 +386,15 @@
       <workItem from="1563581022759" duration="11402000" />
       <workItem from="1563652527700" duration="1000" />
       <workItem from="1563652589369" duration="5134000" />
-      <workItem from="1563657945025" duration="31352000" />
+      <workItem from="1563657945025" duration="31981000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="47889000" />
+    <option name="totallyTimeSpent" value="48518000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1700" y="20" width="1880" height="1141" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.1434024" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -412,7 +404,7 @@
       <window_info id="UI Designer" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Build" order="0" sideWeight="0.49945474" weight="0.2407767" />
-      <window_info anchor="bottom" id="Terminal" order="1" weight="0.26116505" />
+      <window_info anchor="bottom" id="Terminal" order="1" visible="true" weight="0.26116505" />
       <window_info anchor="bottom" id="Docker" order="2" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="3" sideWeight="0.50054526" side_tool="true" weight="0.47184467" />
       <window_info anchor="bottom" id="Messages" order="4" weight="0.3291262" />
@@ -668,7 +660,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/kotlin/org/othercraft/Yoink.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="850">
+        <state relative-caret-position="500">
           <caret line="50" column="19" selection-start-line="50" selection-start-column="19" selection-end-line="50" selection-end-column="19" />
           <folding>
             <element signature="e#24#286#0" expanded="true" />
