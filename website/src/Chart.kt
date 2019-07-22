@@ -143,7 +143,7 @@ fun totalTimeChart(list: List<LogEntry>) {
             formatter = {
                 val username = js("this.x") as String
                 val min = js("this.y") as Int
-                "<br>$username</br>:" + hm(min)
+                "$username:<b>" + hm(min) + "</b>"
             }
         }
     }
@@ -151,6 +151,10 @@ fun totalTimeChart(list: List<LogEntry>) {
 
     plotBarChart("totalTimeChart", totalTimeChart)
 }
+
+
+
+
 
 fun hm(min :Int):String {
     val h = (min / 60).toString().takeIf { it.isNotBlank() && it != "0" }?.let { "${it}h" } ?: ""

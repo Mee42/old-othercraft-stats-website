@@ -358,7 +358,7 @@ var website = function (_, Kotlin) {
     var tmp$, tmp$_0;
     var username = typeof (tmp$ = this.x) === 'string' ? tmp$ : throwCCE();
     var min = typeof (tmp$_0 = this.y) === 'number' ? tmp$_0 : throwCCE();
-    return '<br>' + username + '<\/br>:' + hm(min);
+    return username + ':<b>' + hm(min) + '<\/b>';
   }
   function totalTimeChart(list) {
     var users = sortedWith(toUserPairs(list), new Comparator$ObjectLiteral(compareByDescending$lambda(totalTimeChart$lambda)));
