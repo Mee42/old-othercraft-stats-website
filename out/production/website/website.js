@@ -8,6 +8,10 @@ var website = function (_, Kotlin) {
   var equals = Kotlin.equals;
   var average = Kotlin.kotlin.collections.average_dmxgdv$;
   var numberToInt = Kotlin.numberToInt;
+  var throwCCE = Kotlin.throwCCE;
+  var ensureNotNull = Kotlin.ensureNotNull;
+  var until = Kotlin.kotlin.ranges.until_dqglrj$;
+  var sum = Kotlin.kotlin.collections.sum_plj8ka$;
   var toInt = Kotlin.kotlin.text.toInt_pdl1vz$;
   var defineInlineFunction = Kotlin.defineInlineFunction;
   var wrapFunction = Kotlin.wrapFunction;
@@ -17,14 +21,15 @@ var website = function (_, Kotlin) {
   var copyToArray = Kotlin.kotlin.collections.copyToArray;
   var sortedWith = Kotlin.kotlin.collections.sortedWith_eknfly$;
   var Comparator = Kotlin.kotlin.Comparator;
+  var IllegalStateException_init = Kotlin.kotlin.IllegalStateException_init_pdl1vj$;
   var HashSet_init = Kotlin.kotlin.collections.HashSet_init_287e2$;
+  var isBlank = Kotlin.kotlin.text.isBlank_gw00vp$;
+  var trim = Kotlin.kotlin.text.trim_gw00vp$;
   var abs = Kotlin.kotlin.math.abs_s8cxhz$;
   var toString = Kotlin.toString;
   var iterator = Kotlin.kotlin.js.iterator_s8jyvk$;
-  var ensureNotNull = Kotlin.ensureNotNull;
   var Unit = Kotlin.kotlin.Unit;
   var println = Kotlin.kotlin.io.println_s8jyv4$;
-  var throwCCE = Kotlin.throwCCE;
   var L0 = Kotlin.Long.ZERO;
   var toLong = Kotlin.kotlin.text.toLong_pdl1vz$;
   var Regex_init = Kotlin.kotlin.text.Regex_init_61zpoe$;
@@ -59,6 +64,7 @@ var website = function (_, Kotlin) {
   function charts(list) {
     averageTimeChart(list);
     totalTimeChart(list);
+    timePerDay(list);
   }
   function averageTimeChart$lambda(closure$list) {
     return function (it) {
@@ -132,8 +138,227 @@ var website = function (_, Kotlin) {
     var averageTimeChart = o;
     plotBarChart('averageTimeChart', averageTimeChart);
   }
+  function timePerDay$WeekEntry(day, username, seconds) {
+    this.day = day;
+    this.username = username;
+    this.seconds = seconds;
+  }
+  timePerDay$WeekEntry.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'WeekEntry',
+    interfaces: []
+  };
+  timePerDay$WeekEntry.prototype.component1 = function () {
+    return this.day;
+  };
+  timePerDay$WeekEntry.prototype.component2 = function () {
+    return this.username;
+  };
+  timePerDay$WeekEntry.prototype.component3 = function () {
+    return this.seconds;
+  };
+  timePerDay$WeekEntry.prototype.copy_jl0c9m$ = function (day, username, seconds) {
+    return new timePerDay$WeekEntry(day === void 0 ? this.day : day, username === void 0 ? this.username : username, seconds === void 0 ? this.seconds : seconds);
+  };
+  timePerDay$WeekEntry.prototype.toString = function () {
+    return 'WeekEntry(day=' + Kotlin.toString(this.day) + (', username=' + Kotlin.toString(this.username)) + (', seconds=' + Kotlin.toString(this.seconds)) + ')';
+  };
+  timePerDay$WeekEntry.prototype.hashCode = function () {
+    var result = 0;
+    result = result * 31 + Kotlin.hashCode(this.day) | 0;
+    result = result * 31 + Kotlin.hashCode(this.username) | 0;
+    result = result * 31 + Kotlin.hashCode(this.seconds) | 0;
+    return result;
+  };
+  timePerDay$WeekEntry.prototype.equals = function (other) {
+    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.day, other.day) && Kotlin.equals(this.username, other.username) && Kotlin.equals(this.seconds, other.seconds)))));
+  };
+  function timePerDay$dayNameForInt(int) {
+    switch (int) {
+      case 0:
+        return 'Sun';
+      case 1:
+        return 'Mon';
+      case 2:
+        return 'Tues';
+      case 3:
+        return 'Wed';
+      case 4:
+        return 'Thu';
+      case 5:
+        return 'Fri';
+      case 6:
+        return 'Sat';
+      default:throw IllegalStateException_init(('unknown day ' + int).toString());
+    }
+  }
+  function timePerDay$between(a, b) {
+    var tmp$;
+    use(a);
+    use(b);
+    return numberToInt((typeof (tmp$ = b - a) === 'number' ? tmp$ : throwCCE()) / 86400000);
+  }
+  function timePerDay$lambda$lambda$lambda() {
+    var tmp$;
+    var username = this.series.name;
+    var y = typeof (tmp$ = this.y) === 'number' ? tmp$ : throwCCE();
+    return '<b>' + username.toString() + '<\/b>:' + hm(y);
+  }
+  function timePerDay(list) {
+    var dayNameForInt = timePerDay$dayNameForInt;
+    var destination = ArrayList_init_0(collectionSizeOrDefault(list, 10));
+    var tmp$;
+    tmp$ = list.iterator();
+    while (tmp$.hasNext()) {
+      var item = tmp$.next();
+      var tmp$_0 = destination.add_11rb$;
+      var tmp$_1;
+      var long = item.msDuration;
+      use(long);
+      tmp$_0.call(destination, new timePerDay$WeekEntry((new Date(item.time)).getDay(), item.username, typeof (tmp$_1 = long / 1000) === 'number' ? tmp$_1 : throwCCE()));
+    }
+    var userLists = destination;
+    var between = timePerDay$between;
+    var tmp$_2;
+    var set = HashSet_init();
+    var list_0 = ArrayList_init();
+    tmp$_2 = userLists.iterator();
+    while (tmp$_2.hasNext()) {
+      var e = tmp$_2.next();
+      var key = e.username;
+      if (set.add_11rb$(key))
+        list_0.add_11rb$(e);
+    }
+    var destination_0 = ArrayList_init_0(collectionSizeOrDefault(list_0, 10));
+    var tmp$_3;
+    tmp$_3 = list_0.iterator();
+    while (tmp$_3.hasNext()) {
+      var item_0 = tmp$_3.next();
+      destination_0.add_11rb$(item_0.username);
+    }
+    var usernames = destination_0;
+    var minBy$result;
+    minBy$break: do {
+      var iterator = list.iterator();
+      if (!iterator.hasNext()) {
+        minBy$result = null;
+        break minBy$break;
+      }
+      var minElem = iterator.next();
+      if (!iterator.hasNext()) {
+        minBy$result = minElem;
+        break minBy$break;
+      }
+      var minValue = minElem.time;
+      do {
+        var e_0 = iterator.next();
+        var v = e_0.time;
+        if (Kotlin.compareTo(minValue, v) > 0) {
+          minElem = e_0;
+          minValue = v;
+        }
+      }
+       while (iterator.hasNext());
+      minBy$result = minElem;
+    }
+     while (false);
+    var tmp$_4 = ensureNotNull(minBy$result).time;
+    var maxBy$result;
+    maxBy$break: do {
+      var iterator_0 = list.iterator();
+      if (!iterator_0.hasNext()) {
+        maxBy$result = null;
+        break maxBy$break;
+      }
+      var maxElem = iterator_0.next();
+      if (!iterator_0.hasNext()) {
+        maxBy$result = maxElem;
+        break maxBy$break;
+      }
+      var maxValue = maxElem.time;
+      do {
+        var e_1 = iterator_0.next();
+        var v_0 = e_1.time;
+        if (Kotlin.compareTo(maxValue, v_0) < 0) {
+          maxElem = e_1;
+          maxValue = v_0;
+        }
+      }
+       while (iterator_0.hasNext());
+      maxBy$result = maxElem;
+    }
+     while (false);
+    var numberOfWeeks = between(tmp$_4, ensureNotNull(maxBy$result).time);
+    var o = {};
+    var o_0 = {};
+    o_0.type = 'column';
+    o.chart = o_0;
+    var o_1 = {};
+    o_1.text = 'Time on each day. Weeks: ' + numberOfWeeks;
+    o.title = o_1;
+    var o_2 = {};
+    o.yAxis = [o_2];
+    var o_3 = {};
+    var $receiver = until(0, 7);
+    var destination_1 = ArrayList_init_0(collectionSizeOrDefault($receiver, 10));
+    var tmp$_5;
+    tmp$_5 = $receiver.iterator();
+    while (tmp$_5.hasNext()) {
+      var item_1 = tmp$_5.next();
+      destination_1.add_11rb$(dayNameForInt(item_1));
+    }
+    o_3.categories = copyToArray(destination_1);
+    o.xAxis = o_3;
+    var destination_2 = ArrayList_init_0(collectionSizeOrDefault(usernames, 10));
+    var tmp$_6;
+    tmp$_6 = usernames.iterator();
+    while (tmp$_6.hasNext()) {
+      var item_2 = tmp$_6.next();
+      var tmp$_7 = destination_2.add_11rb$;
+      var o_4 = {};
+      o_4.name = item_2;
+      var $receiver_0 = until(0, 7);
+      var destination_3 = ArrayList_init_0(collectionSizeOrDefault($receiver_0, 10));
+      var tmp$_8;
+      tmp$_8 = $receiver_0.iterator();
+      while (tmp$_8.hasNext()) {
+        var item_3 = tmp$_8.next();
+        var tmp$_9 = destination_3.add_11rb$;
+        var destination_4 = ArrayList_init();
+        var tmp$_10;
+        tmp$_10 = userLists.iterator();
+        while (tmp$_10.hasNext()) {
+          var element = tmp$_10.next();
+          if (element.day === item_3 && equals(element.username, item_2))
+            destination_4.add_11rb$(element);
+        }
+        var destination_5 = ArrayList_init_0(collectionSizeOrDefault(destination_4, 10));
+        var tmp$_11;
+        tmp$_11 = destination_4.iterator();
+        while (tmp$_11.hasNext()) {
+          var item_4 = tmp$_11.next();
+          destination_5.add_11rb$(item_4.seconds);
+        }
+        tmp$_9.call(destination_3, (sum(destination_5) / 60 | 0) / numberOfWeeks | 0);
+      }
+      o_4.data = copyToArray(destination_3);
+      tmp$_7.call(destination_2, o_4);
+    }
+    o.series = copyToArray(destination_2);
+    var o_5 = {};
+    o_5.formatter = timePerDay$lambda$lambda$lambda;
+    o.tooltip = o_5;
+    var chart = o;
+    plotBarChart('timePerDayChart', chart);
+  }
   function totalTimeChart$lambda(it) {
     return it.time;
+  }
+  function totalTimeChart$lambda$lambda$lambda() {
+    var tmp$, tmp$_0;
+    var username = typeof (tmp$ = this.x) === 'string' ? tmp$ : throwCCE();
+    var min = typeof (tmp$_0 = this.y) === 'number' ? tmp$_0 : throwCCE();
+    return '<br>' + username + '<\/br>:' + hm(min);
   }
   function totalTimeChart(list) {
     var users = sortedWith(toUserPairs(list), new Comparator$ObjectLiteral(compareByDescending$lambda(totalTimeChart$lambda)));
@@ -168,8 +393,20 @@ var website = function (_, Kotlin) {
     o_4.data = copyToArray(destination_0);
     o_4.yAxis = 0;
     o.series = [o_4];
+    var o_5 = {};
+    o_5.formatter = totalTimeChart$lambda$lambda$lambda;
+    o.tooltip = o_5;
     var totalTimeChart = o;
     plotBarChart('totalTimeChart', totalTimeChart);
+  }
+  function hm(min) {
+    var tmp$, tmp$_0;
+    var $receiver = (min / 60 | 0).toString();
+    var h = (tmp$_0 = (tmp$ = !isBlank($receiver) && !equals($receiver, '0') ? $receiver : null) != null ? tmp$ + 'h' : null) != null ? tmp$_0 : '';
+    var m = (min % 60).toString() + 'm';
+    var $receiver_0 = h + ' ' + m;
+    var tmp$_1;
+    return trim(Kotlin.isCharSequence(tmp$_1 = $receiver_0) ? tmp$_1 : throwCCE()).toString();
   }
   function toUserPairs($receiver) {
     var tmp$;
@@ -213,6 +450,9 @@ var website = function (_, Kotlin) {
       tmp$_2.call(destination_0, new UserPair(item_0, sum / 60000 | 0));
     }
     return destination_0;
+  }
+  function use($receiver) {
+    return $receiver;
   }
   var dyn = defineInlineFunction('website.dyn_5ij4lk$', function (init) {
     var o = {};
@@ -392,8 +632,11 @@ var website = function (_, Kotlin) {
   _.charts_7u896l$ = charts;
   $$importsForInline$$.website = _;
   _.averageTimeChart_7u896l$ = averageTimeChart;
+  _.timePerDay_7u896l$ = timePerDay;
   _.totalTimeChart_7u896l$ = totalTimeChart;
+  _.hm_za3lpa$ = hm;
   _.toUserPairs_txrqs2$ = toUserPairs;
+  _.use_eoe559$ = use;
   _.dyn_5ij4lk$ = dyn;
   _.Duration = Duration;
   _.LogEntry = LogEntry;
