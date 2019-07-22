@@ -386,12 +386,12 @@
       <workItem from="1563581022759" duration="11402000" />
       <workItem from="1563652527700" duration="1000" />
       <workItem from="1563652589369" duration="5134000" />
-      <workItem from="1563657945025" duration="31981000" />
+      <workItem from="1563657945025" duration="32606000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="48518000" />
+    <option name="totallyTimeSpent" value="49143000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1700" y="20" width="1880" height="1141" extended-state="0" />
@@ -404,7 +404,7 @@
       <window_info id="UI Designer" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Build" order="0" sideWeight="0.49945474" weight="0.2407767" />
-      <window_info anchor="bottom" id="Terminal" order="1" visible="true" weight="0.26116505" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="1" visible="true" weight="0.26116505" />
       <window_info anchor="bottom" id="Docker" order="2" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="3" sideWeight="0.50054526" side_tool="true" weight="0.47184467" />
       <window_info anchor="bottom" id="Messages" order="4" weight="0.3291262" />
@@ -427,7 +427,7 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="8" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="9" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="10" weight="0.25" />
-      <window_info active="true" anchor="right" id="Run" order="11" sideWeight="0.49945474" visible="true" weight="0.2955289" />
+      <window_info anchor="right" id="Run" order="11" sideWeight="0.49945474" visible="true" weight="0.2955289" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
