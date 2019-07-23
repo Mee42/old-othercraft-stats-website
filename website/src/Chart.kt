@@ -2,13 +2,14 @@ import kotlin.js.Date
 
 external fun plotBarChart(dom: String, obj: dynamic)
 
-class UserPair(val name: String, val time: Int)
+data class UserPair(val name: String, val time: Int)
 
 
 fun charts(list: List<LogEntry>) {
     averageTimeChart(list)
     totalTimeChart(list)
     timePerDay(list)
+    perDayChart(list)
 }
 
 fun averageTimeChart(list: List<LogEntry>) {
@@ -76,6 +77,10 @@ fun timePerDay(list: List<LogEntry>) {
 
     val usernames = userLists.distinctBy { it.username }.map { it.username }
     val numberOfWeeks = between(list.minBy { it.time }!!.time, list.maxBy { it.time }!!.time)
+            .toDouble()
+            .div(604800000)
+            .plus(1)
+            .toInt()
 
     val chart = dyn {
         chart = dyn {
@@ -106,7 +111,7 @@ fun timePerDay(list: List<LogEntry>) {
             formatter = {
                 val username = js("this.series.name")
                 val y = js("this.y") as Int
-                "<b>$username</b>:" + hm(y)
+                "$username:<b>" + hm(y) + "</b>"
             }
         }
     }
@@ -119,7 +124,6 @@ fun totalTimeChart(list: List<LogEntry>) {
 
 
     val users = list.toUserPairs().sortedByDescending { it.time }
-
 
     val totalTimeChart = dyn {
         chart = dyn {
@@ -136,7 +140,6 @@ fun totalTimeChart(list: List<LogEntry>) {
                 dyn {
                     name = "Total minutes, all time"
                     data = users.map { it.time }.toTypedArray()
-                    yAxis = 0
                 }
         )
         tooltip = dyn {
@@ -152,7 +155,90 @@ fun totalTimeChart(list: List<LogEntry>) {
     plotBarChart("totalTimeChart", totalTimeChart)
 }
 
+fun perDayChart(list: List<LogEntry>){
+    data class HouredEntry(
+            val hour :Int,
+            val username :String,
+            val duration: Duration)
 
+
+    val mapped = list.map {
+        HouredEntry(
+                hour = Date(it.time).getHours(),
+                username = it.username,
+                duration = Duration(it.msDuration / 1000))
+    }
+
+    val folded = mapped.distinctBy { it.hour.toString() + it.username }
+            .map {
+                HouredEntry(
+                        hour = it.hour,
+                        username = it.username,
+                        duration = mapped
+                                .filter { u -> u.hour == it.hour }
+                                .filter { u -> u.username == it.username }
+                                .map { u -> u.duration }
+                                .fold(Duration(0)){a,b->a+b}
+                )
+            }
+
+
+    val better = folded + (0 until 24).map {
+        HouredEntry(
+                hour = it,
+                username = "average",
+                duration = folded.filter { u -> u.hour == it }
+                        .map { u -> u.duration }
+                        .fold(Duration(0)){a,b->a+b}
+                        .let { u -> Duration(u.seconds.div(list.map { e -> e.username }.distinct().size).times(3)) }
+        )
+
+    }
+
+
+    val chart = dyn {
+//        chart = dyn {
+//            type = "bar"
+//        }
+        title = dyn {
+            text = "Time, split by hour."
+        }
+        yAxis = dyn {}
+        xAxis = dyn {
+            categories = (0 until 24)
+                    .map { "" + (it % 12) + if (it > 11) "pm" else "am" }
+                    .map {
+                        when(it){
+                            "0am" -> "12am"
+                            "0pm" -> "12pm"
+                            else -> it
+                        }
+                    }
+                    .toTypedArray()
+        }
+        series = better.distinctBy { it.username }.map { it.username }.map { username ->
+            dyn {
+                name = username
+                data = (0 until 24).map { hour ->
+                    better.firstOrNull { it.hour == hour && it.username == username }?.duration?.seconds?.div(60) ?: 0
+                }.toTypedArray()
+                lineWidth = if (username == "average") 5 else 2
+                if (username == "average"){
+                    color = "#111111"
+                }
+            }
+        }.toTypedArray()
+//        tooltip = dyn {
+//            formatter = {
+//                val username = js("this.x") as String
+//                val min = js("this.y") as Int
+//                "$username:<b>" + hm(min) + "</b>"
+//            }
+//        }
+    }
+
+    plotBarChart("perDayChart",chart)
+}
 
 
 
@@ -163,14 +249,14 @@ fun hm(min :Int):String {
 }
 
 fun List<LogEntry>.toUserPairs(): List<UserPair> {
-    return distinctBy { it.username }
-            .map { it.username }
+    return distinctBy { it.username }.map { it.username }
             .map { username ->
                 UserPair(
                         name = username,
                         time = filter { it.username == username }
-                                .sumBy { it.msDuration.toString().toInt() }
-                                .div(1000 * 60))
+                                .fold(0) { a,b -> a + b.msDuration }
+                                .div(60000)
+                )
             }
 }
 

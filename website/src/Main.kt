@@ -11,7 +11,7 @@ external fun getEntries(callback: (String) -> Unit)
 data class LogEntry(
         val username: String,
         val time: Long,
-        val msDuration: Long)
+        val msDuration: Int)
 
 
 fun map(usernamesJ: String, entriesJ: String): List<LogEntry> {
@@ -32,7 +32,7 @@ fun map(usernamesJ: String, entriesJ: String): List<LogEntry> {
 
     for (entry in entries) {
         val timeLogged = entry.timeLogged.unsafeCast<Long>()
-        val millis = entry.millis.unsafeCast<Long>()
+        val millis = entry.millis.unsafeCast<Int>()
         val uuid = entry.uuid.unsafeCast<String>()
         list += LogEntry(
                 username = getUsernameForUUID(uuid),
@@ -86,7 +86,7 @@ fun main() {
         charts(it)
         document.getElementById("totalHours")!!.textContent = it
                 .map { e -> e.msDuration }
-                .fold(0L){ a,b -> js("a + b").toString().toLong() }
+                .fold(0){ a,b -> a + b }
                 .toString()
                 .toInt()
                 .div(1000 * 60)
@@ -110,7 +110,7 @@ fun main() {
                 tr.insertCell().appendText(log.username)
                 val d = log.msDuration
                 d.toString()
-                tr.insertCell().appendText(Duration(js("d / 1000").toString().toDouble().toLong()).toString())
+                tr.insertCell().appendText(Duration(d / 1000).toString())
                 tr.insertCell().appendText(Date(milliseconds = log.time).toDateString())
             }
         }//table

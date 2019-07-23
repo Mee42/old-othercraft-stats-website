@@ -1,6 +1,6 @@
 import kotlin.math.abs
 
-class Duration(private val seconds :Long){
+class Duration(val seconds :Int){
     override fun toString(): String {
         val seconds = seconds
         val absSeconds = abs(seconds)
@@ -9,5 +9,8 @@ class Duration(private val seconds :Long){
                 absSeconds % 3600 / 60 + "m " +
                 absSeconds % 60 + "s"
         return if (seconds < 0) "-$positive" else positive
+    }
+    operator fun plus(other: Duration):Duration{
+        return Duration(this.seconds + other.seconds)
     }
 }
