@@ -3,11 +3,10 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../website">
-      <sourceFolder url="file://$MODULE_DIR$/../../website/src" type="kotlin-source" />
+      <sourceFolder url="file://$MODULE_DIR$/../../website/src" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="KotlinJavaScript" level="project" />
   </component>
 </module>
-
