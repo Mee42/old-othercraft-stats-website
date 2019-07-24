@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="703b5198-56f8-431f-87c7-40996b3f51d6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/modules/website.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/website.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/entries.json" beforeDir="false" afterPath="$PROJECT_DIR$/res/entries.json" afterDir="false" />
-    </list>
+    <list default="true" id="703b5198-56f8-431f-87c7-40996b3f51d6" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -103,8 +99,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/website/src/Chart.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="193" column="9" lean-forward="true" selection-start-line="193" selection-start-column="9" selection-end-line="193" selection-end-column="9" />
+            <state relative-caret-position="401">
+              <caret line="77" column="76" lean-forward="true" selection-start-line="77" selection-start-column="76" selection-end-line="77" selection-end-column="76" />
             </state>
           </provider>
         </entry>
@@ -390,18 +386,17 @@
       <workItem from="1563657945025" duration="44740000" />
       <workItem from="1563909887097" duration="17000" />
       <workItem from="1563910347488" duration="2244000" />
-      <workItem from="1563988006750" duration="599000" />
+      <workItem from="1563988006750" duration="1586000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="64137000" />
+    <option name="totallyTimeSpent" value="65124000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1700" y="20" width="1880" height="1141" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.29716468" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17502727" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -409,7 +404,7 @@
       <window_info id="UI Designer" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Build" order="0" sideWeight="0.49945474" weight="0.2407767" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="1" visible="true" weight="0.26116505" />
+      <window_info anchor="bottom" id="Terminal" order="1" visible="true" weight="0.26116505" />
       <window_info anchor="bottom" id="Docker" order="2" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="3" sideWeight="0.50054526" side_tool="true" weight="0.47184467" />
       <window_info anchor="bottom" id="Messages" order="4" weight="0.3291262" />
@@ -432,7 +427,7 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="8" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="9" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="10" weight="0.25" />
-      <window_info anchor="right" id="Run" order="11" sideWeight="0.49945474" visible="true" weight="0.34242094" />
+      <window_info active="true" anchor="right" id="Run" order="11" sideWeight="0.49945474" visible="true" weight="0.24972737" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -663,8 +658,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/website/src/Chart.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="193" column="9" lean-forward="true" selection-start-line="193" selection-start-column="9" selection-end-line="193" selection-end-column="9" />
+        <state relative-caret-position="401">
+          <caret line="77" column="76" lean-forward="true" selection-start-line="77" selection-start-column="76" selection-end-line="77" selection-end-column="76" />
         </state>
       </provider>
     </entry>
