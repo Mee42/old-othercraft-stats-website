@@ -7,6 +7,8 @@ import kotlin.js.Date
 
 external fun getUsernames(callback: (String) -> Unit)
 external fun getEntries(callback: (String) -> Unit)
+external fun getOld(callback: (String) -> Unit)
+
 
 data class LogEntry(
         val username: String,
@@ -14,7 +16,7 @@ data class LogEntry(
         val msDuration: Int)
 
 
-fun map(usernamesJ: String, entriesJ: String): List<LogEntry> {
+fun map(usernamesJ: String, entriesJ: String,oldJ: String): List<LogEntry> {
 
     val usernames = JSON.parse<dynamic>(usernamesJ)
     fun getUsernameForUUID(uuid: String): String {
@@ -27,10 +29,10 @@ fun map(usernamesJ: String, entriesJ: String): List<LogEntry> {
     }
 
     val entries = JSON.parse<dynamic>(entriesJ)
-
+    val old = JSON.parse<dynamic>(oldJ)
     val list = mutableListOf<LogEntry>()
 
-    for (entry in entries) {
+    val addDynamicToList = { entry: dynamic ->
         val timeLogged = entry.timeLogged.unsafeCast<Long>()
         val millis = entry.millis.unsafeCast<Int>()
         val uuid = entry.uuid.unsafeCast<String>()
@@ -39,16 +41,23 @@ fun map(usernamesJ: String, entriesJ: String): List<LogEntry> {
                 time = timeLogged,
                 msDuration = millis)
     }
+
+    for (entry in entries)
+        addDynamicToList(entry)
+    for (entry in old)
+        addDynamicToList(entry)
+
     return list
 }
 
 fun getList(callback: (List<LogEntry>) -> Unit) {
     var usernames: String? = null
     var entries: String? = null
+    var old: String? = null
 
     fun test() {
-        if (usernames != null && entries != null) {
-            callback(map(usernames!!, entries!!))
+        if (usernames != null && entries != null && old != null) {
+            callback(map(usernames!!, entries!!,old!!))
         }
     }
     getEntries {
@@ -59,13 +68,16 @@ fun getList(callback: (List<LogEntry>) -> Unit) {
         usernames = it
         test()
     }
+    getOld {
+        old = it
+        test()
+    }
 }
 
 
 
 
 fun main() {
-    println("u shouldn't be here.\ngood for you.")
 
     val showHide = document.getElementById("table-toggle")!! as HTMLButtonElement
 
@@ -86,17 +98,9 @@ fun main() {
         charts(it)
         document.getElementById("totalHours")!!.textContent = it
                 .map { e -> e.msDuration }
-                .fold(0){ a,b -> a + b }
-                .toString()
+                .fold(0.0){ a,b -> a + b }
+                .div(1000 * 60 * 60)
                 .toInt()
-                .div(1000 * 60)
-                .toDouble()
-                .div(60)
-                .times(100)
-                .toString()
-                .replace(Regex("""\..*"""),"")
-                .toInt()
-                .div(100)
                 .toString()
                 .concat(" Hours total")
 

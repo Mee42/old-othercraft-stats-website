@@ -21,3 +21,9 @@ function getEntries(callback) {
     client.send();
 }
 
+function getOld(callback) {
+    var client = new XMLHttpRequest();
+    client.open('GET', 'res/old.json');
+    client.onload = function() { callback(client.responseText);};
+    client.send();
+}

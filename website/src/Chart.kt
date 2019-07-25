@@ -6,6 +6,7 @@ data class UserPair(val name: String, val time: Int)
 
 
 fun charts(list: List<LogEntry>) {
+    println(list)
     averageTimeChart(list)
     totalTimeChart(list)
     timePerDay(list)
@@ -19,6 +20,8 @@ fun averageTimeChart(list: List<LogEntry>) {
                         .map { it.msDuration }
                         .average()
             }
+
+
 
     val averageTimeChart = dyn {
         chart = dyn {
@@ -122,8 +125,9 @@ fun timePerDay(list: List<LogEntry>) {
 
 fun totalTimeChart(list: List<LogEntry>) {
 
-
     val users = list.toUserPairs().sortedByDescending { it.time }
+
+    println(users)
 
     val totalTimeChart = dyn {
         chart = dyn {

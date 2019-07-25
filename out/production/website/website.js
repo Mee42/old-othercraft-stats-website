@@ -5,6 +5,7 @@ var website = function (_, Kotlin) {
   'use strict';
   var $$importsForInline$$ = _.$$importsForInline$$ || (_.$$importsForInline$$ = {});
   var Kind_CLASS = Kotlin.Kind.CLASS;
+  var println = Kotlin.kotlin.io.println_s8jyv4$;
   var equals = Kotlin.equals;
   var average = Kotlin.kotlin.collections.average_plj8ka$;
   var numberToInt = Kotlin.numberToInt;
@@ -30,9 +31,6 @@ var website = function (_, Kotlin) {
   var abs = Kotlin.kotlin.math.abs_za3lpa$;
   var iterator = Kotlin.kotlin.js.iterator_s8jyvk$;
   var Unit = Kotlin.kotlin.Unit;
-  var println = Kotlin.kotlin.io.println_s8jyv4$;
-  var toInt = Kotlin.kotlin.text.toInt_pdl1vz$;
-  var Regex_init = Kotlin.kotlin.text.Regex_init_61zpoe$;
   var appendText = Kotlin.kotlin.dom.appendText_46n0ku$;
   var addClass = Kotlin.kotlin.dom.addClass_hhb33f$;
   function Comparator$ObjectLiteral(closure$comparison) {
@@ -82,6 +80,7 @@ var website = function (_, Kotlin) {
     return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.name, other.name) && Kotlin.equals(this.time, other.time)))));
   };
   function charts(list) {
+    println(list);
     averageTimeChart(list);
     totalTimeChart(list);
     timePerDay(list);
@@ -383,6 +382,7 @@ var website = function (_, Kotlin) {
   }
   function totalTimeChart(list) {
     var users = sortedWith(toUserPairs(list), new Comparator$ObjectLiteral(compareByDescending$lambda(totalTimeChart$lambda)));
+    println(users);
     var o = {};
     var o_0 = {};
     o_0.type = 'bar';
@@ -778,27 +778,41 @@ var website = function (_, Kotlin) {
       return uuid;
     };
   }
-  function map(usernamesJ, entriesJ) {
-    var tmp$;
-    var usernames = JSON.parse(usernamesJ);
-    var getUsernameForUUID = map$getUsernameForUUID(usernames);
-    var entries = JSON.parse(entriesJ);
-    var list = ArrayList_init();
-    tmp$ = iterator(entries);
-    while (tmp$.hasNext()) {
-      var entry = tmp$.next();
+  function map$lambda(closure$list, closure$getUsernameForUUID) {
+    return function (entry) {
       var timeLogged = entry.timeLogged;
       var millis = entry.millis;
       var uuid = entry.uuid;
-      var element = new LogEntry(getUsernameForUUID(uuid), timeLogged, millis);
-      list.add_11rb$(element);
+      var $receiver = closure$list;
+      var element = new LogEntry(closure$getUsernameForUUID(uuid), timeLogged, millis);
+      $receiver.add_11rb$(element);
+      return Unit;
+    };
+  }
+  function map(usernamesJ, entriesJ, oldJ) {
+    var tmp$, tmp$_0;
+    var usernames = JSON.parse(usernamesJ);
+    var getUsernameForUUID = map$getUsernameForUUID(usernames);
+    var entries = JSON.parse(entriesJ);
+    var old = JSON.parse(oldJ);
+    var list = ArrayList_init();
+    var addDynamicToList = map$lambda(list, getUsernameForUUID);
+    tmp$ = iterator(entries);
+    while (tmp$.hasNext()) {
+      var entry = tmp$.next();
+      addDynamicToList(entry);
+    }
+    tmp$_0 = iterator(old);
+    while (tmp$_0.hasNext()) {
+      var entry_0 = tmp$_0.next();
+      addDynamicToList(entry_0);
     }
     return list;
   }
-  function getList$test(closure$usernames, closure$entries, closure$callback) {
+  function getList$test(closure$usernames, closure$entries, closure$old, closure$callback) {
     return function () {
-      if (closure$usernames.v != null && closure$entries.v != null) {
-        closure$callback(map(ensureNotNull(closure$usernames.v), ensureNotNull(closure$entries.v)));
+      if (closure$usernames.v != null && closure$entries.v != null && closure$old.v != null) {
+        closure$callback(map(ensureNotNull(closure$usernames.v), ensureNotNull(closure$entries.v), ensureNotNull(closure$old.v)));
       }
     };
   }
@@ -816,12 +830,21 @@ var website = function (_, Kotlin) {
       return Unit;
     };
   }
+  function getList$lambda_1(closure$old, closure$test) {
+    return function (it) {
+      closure$old.v = it;
+      closure$test();
+      return Unit;
+    };
+  }
   function getList(callback) {
     var usernames = {v: null};
     var entries = {v: null};
-    var test = getList$test(usernames, entries, callback);
+    var old = {v: null};
+    var test = getList$test(usernames, entries, old, callback);
     getEntries(getList$lambda(entries, test));
     getUsernames(getList$lambda_0(usernames, test));
+    getOld(getList$lambda_1(old, test));
   }
   function main$lambda(closure$table, closure$showHide) {
     return function (it) {
@@ -848,16 +871,15 @@ var website = function (_, Kotlin) {
         destination.add_11rb$(item.msDuration);
       }
       var tmp$_1;
-      var accumulator = 0;
+      var accumulator = 0.0;
       tmp$_1 = destination.iterator();
       while (tmp$_1.hasNext()) {
         var element = tmp$_1.next();
-        accumulator = accumulator + element | 0;
+        accumulator = accumulator + element;
       }
-      var $receiver = ((toInt(accumulator.toString()) / 60000 | 0) / 60 * 100).toString();
-      var $receiver_0 = (toInt(Regex_init('\\..*').replace_x2uqeu$($receiver, '')) / 100 | 0).toString();
+      var $receiver = numberToInt(accumulator / 3600000).toString();
       var str = ' Hours total';
-      tmp$.textContent = $receiver_0.concat(str);
+      tmp$.textContent = $receiver.concat(str);
       var closure$table_0 = closure$table;
       var tmp$_2;
       var header = closure$table_0.insertRow();
@@ -879,7 +901,6 @@ var website = function (_, Kotlin) {
   }
   function main() {
     var tmp$, tmp$_0;
-    println("u shouldn't be here.\ngood for you.");
     var showHide = Kotlin.isType(tmp$ = ensureNotNull(document.getElementById('table-toggle')), HTMLButtonElement) ? tmp$ : throwCCE();
     var table = Kotlin.isType(tmp$_0 = document.getElementById('entire-table'), HTMLTableElement) ? tmp$_0 : throwCCE();
     showHide.onclick = main$lambda(table, showHide);
@@ -898,7 +919,7 @@ var website = function (_, Kotlin) {
   _.dyn_5ij4lk$ = dyn;
   _.Duration = Duration;
   _.LogEntry = LogEntry;
-  _.map_puj7f4$ = map;
+  _.map_6hosri$ = map;
   _.getList_dzsxne$ = getList;
   _.main = main;
   main();
