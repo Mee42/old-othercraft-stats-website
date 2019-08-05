@@ -15,6 +15,4 @@ dependencies {
     testImplementation "org.jetbrains.kotlin:kotlin-test-js"
 }
 
-kotlin.target.browser { 
-    
-}
+kotlin.target.browser {}

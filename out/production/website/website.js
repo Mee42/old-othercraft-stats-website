@@ -6,22 +6,25 @@ var website = function (_, Kotlin) {
   var $$importsForInline$$ = _.$$importsForInline$$ || (_.$$importsForInline$$ = {});
   var Kind_CLASS = Kotlin.Kind.CLASS;
   var println = Kotlin.kotlin.io.println_s8jyv4$;
+  var IntRange = Kotlin.kotlin.ranges.IntRange;
+  var until = Kotlin.kotlin.ranges.until_dqglrj$;
+  var listOf = Kotlin.kotlin.collections.listOf_i5x0yv$;
+  var flatten = Kotlin.kotlin.collections.flatten_u0ad8z$;
+  var throwCCE = Kotlin.throwCCE;
   var equals = Kotlin.equals;
   var average = Kotlin.kotlin.collections.average_plj8ka$;
   var numberToInt = Kotlin.numberToInt;
-  var throwCCE = Kotlin.throwCCE;
   var ensureNotNull = Kotlin.ensureNotNull;
-  var until = Kotlin.kotlin.ranges.until_dqglrj$;
   var sum = Kotlin.kotlin.collections.sum_plj8ka$;
   var distinct = Kotlin.kotlin.collections.distinct_7wnvza$;
   var plus = Kotlin.kotlin.collections.plus_mydzjv$;
   var toString = Kotlin.toString;
   var defineInlineFunction = Kotlin.defineInlineFunction;
   var wrapFunction = Kotlin.wrapFunction;
-  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_287e2$;
   var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
-  var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
+  var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
   var copyToArray = Kotlin.kotlin.collections.copyToArray;
+  var ArrayList_init_0 = Kotlin.kotlin.collections.ArrayList_init_287e2$;
   var sortedWith = Kotlin.kotlin.collections.sortedWith_eknfly$;
   var Comparator = Kotlin.kotlin.Comparator;
   var IllegalStateException_init = Kotlin.kotlin.IllegalStateException_init_pdl1vj$;
@@ -85,11 +88,96 @@ var website = function (_, Kotlin) {
     totalTimeChart(list);
     timePerDay(list);
     perDayChart(list);
+    yearChart(list);
+  }
+  function yearChart$lambda$lambda$lambda() {
+    var tmp$;
+    var sec = typeof (tmp$ = this.point.value) === 'number' ? tmp$ : throwCCE();
+    return hm(sec / 60 | 0);
+  }
+  function yearChart(list) {
+    var o = {};
+    var o_0 = {};
+    o_0.type = 'heatmap';
+    o.chart = o_0;
+    var o_1 = {};
+    o_1.text = 'THIS IS THE TITLE';
+    o.title = o_1;
+    var o_2 = {};
+    var $receiver = new IntRange(0, 52);
+    var destination = ArrayList_init(collectionSizeOrDefault($receiver, 10));
+    var tmp$;
+    tmp$ = $receiver.iterator();
+    while (tmp$.hasNext()) {
+      var item = tmp$.next();
+      destination.add_11rb$(item.toString());
+    }
+    o_2.categories = copyToArray(destination);
+    o.xAxis = o_2;
+    var o_3 = {};
+    o_3.categories = ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'];
+    o.yAxis = o_3;
+    var o_4 = {};
+    o_4.min = 0;
+    o_4.minColor = '#FFFFFF';
+    o_4.maxColor = '#000000';
+    o.colorAxis = o_4;
+    var o_5 = {};
+    o_5.name = 'Activity on this day';
+    o_5.borderWidth = 1;
+    var $receiver_0 = new IntRange(0, 52);
+    var destination_0 = ArrayList_init(collectionSizeOrDefault($receiver_0, 10));
+    var tmp$_0;
+    tmp$_0 = $receiver_0.iterator();
+    while (tmp$_0.hasNext()) {
+      var item_0 = tmp$_0.next();
+      var tmp$_1 = destination_0.add_11rb$;
+      var $receiver_1 = until(0, 7);
+      var destination_1 = ArrayList_init(collectionSizeOrDefault($receiver_1, 10));
+      var tmp$_2;
+      tmp$_2 = $receiver_1.iterator();
+      while (tmp$_2.hasNext()) {
+        var item_1 = tmp$_2.next();
+        var tmp$_3 = destination_1.add_11rb$;
+        var destination_2 = ArrayList_init_0();
+        var tmp$_4;
+        tmp$_4 = list.iterator();
+        while (tmp$_4.hasNext()) {
+          var element = tmp$_4.next();
+          var date = new Date(element.time);
+          if (date.getDay() === item_1 && getWeekNumber(date) === item_0)
+            destination_2.add_11rb$(element);
+        }
+        var destination_3 = ArrayList_init(collectionSizeOrDefault(destination_2, 10));
+        var tmp$_5;
+        tmp$_5 = destination_2.iterator();
+        while (tmp$_5.hasNext()) {
+          var item_2 = tmp$_5.next();
+          destination_3.add_11rb$(new Duration(item_2.msDuration / 1000 | 0));
+        }
+        var tmp$_6;
+        var accumulator = new Duration(0);
+        tmp$_6 = destination_3.iterator();
+        while (tmp$_6.hasNext()) {
+          var element_0 = tmp$_6.next();
+          accumulator = accumulator.plus_vvi6vg$(element_0);
+        }
+        tmp$_3.call(destination_1, copyToArray(listOf([item_0, item_1, accumulator.seconds])));
+      }
+      tmp$_1.call(destination_0, destination_1);
+    }
+    o_5.data = copyToArray(flatten(destination_0));
+    o.series = [o_5];
+    var o_6 = {};
+    o_6.formatter = yearChart$lambda$lambda$lambda;
+    o.tooltip = o_6;
+    var chart = o;
+    plotBarChart('year', chart);
   }
   function averageTimeChart$lambda(closure$list) {
     return function (it) {
       var $receiver = closure$list;
-      var destination = ArrayList_init();
+      var destination = ArrayList_init_0();
       var tmp$;
       tmp$ = $receiver.iterator();
       while (tmp$.hasNext()) {
@@ -97,7 +185,7 @@ var website = function (_, Kotlin) {
         if (equals(element.username, it.name))
           destination.add_11rb$(element);
       }
-      var destination_0 = ArrayList_init_0(collectionSizeOrDefault(destination, 10));
+      var destination_0 = ArrayList_init(collectionSizeOrDefault(destination, 10));
       var tmp$_0;
       tmp$_0 = destination.iterator();
       while (tmp$_0.hasNext()) {
@@ -119,7 +207,7 @@ var website = function (_, Kotlin) {
     var o_2 = {};
     o.yAxis = [o_2];
     var o_3 = {};
-    var destination = ArrayList_init_0(collectionSizeOrDefault(users, 10));
+    var destination = ArrayList_init(collectionSizeOrDefault(users, 10));
     var tmp$;
     tmp$ = users.iterator();
     while (tmp$.hasNext()) {
@@ -130,13 +218,13 @@ var website = function (_, Kotlin) {
     o.xAxis = o_3;
     var o_4 = {};
     o_4.name = 'Average minutes per session';
-    var destination_0 = ArrayList_init_0(collectionSizeOrDefault(users, 10));
+    var destination_0 = ArrayList_init(collectionSizeOrDefault(users, 10));
     var tmp$_0;
     tmp$_0 = users.iterator();
     while (tmp$_0.hasNext()) {
       var item_0 = tmp$_0.next();
       var tmp$_1 = destination_0.add_11rb$;
-      var destination_1 = ArrayList_init();
+      var destination_1 = ArrayList_init_0();
       var tmp$_2;
       tmp$_2 = list.iterator();
       while (tmp$_2.hasNext()) {
@@ -144,7 +232,7 @@ var website = function (_, Kotlin) {
         if (equals(element.username, item_0.name))
           destination_1.add_11rb$(element);
       }
-      var destination_2 = ArrayList_init_0(collectionSizeOrDefault(destination_1, 10));
+      var destination_2 = ArrayList_init(collectionSizeOrDefault(destination_1, 10));
       var tmp$_3;
       tmp$_3 = destination_1.iterator();
       while (tmp$_3.hasNext()) {
@@ -226,7 +314,7 @@ var website = function (_, Kotlin) {
   }
   function timePerDay(list) {
     var dayNameForInt = timePerDay$dayNameForInt;
-    var destination = ArrayList_init_0(collectionSizeOrDefault(list, 10));
+    var destination = ArrayList_init(collectionSizeOrDefault(list, 10));
     var tmp$;
     tmp$ = list.iterator();
     while (tmp$.hasNext()) {
@@ -241,7 +329,7 @@ var website = function (_, Kotlin) {
     var between = timePerDay$between;
     var tmp$_2;
     var set = HashSet_init();
-    var list_0 = ArrayList_init();
+    var list_0 = ArrayList_init_0();
     tmp$_2 = userLists.iterator();
     while (tmp$_2.hasNext()) {
       var e = tmp$_2.next();
@@ -249,7 +337,7 @@ var website = function (_, Kotlin) {
       if (set.add_11rb$(key))
         list_0.add_11rb$(e);
     }
-    var destination_0 = ArrayList_init_0(collectionSizeOrDefault(list_0, 10));
+    var destination_0 = ArrayList_init(collectionSizeOrDefault(list_0, 10));
     var tmp$_3;
     tmp$_3 = list_0.iterator();
     while (tmp$_3.hasNext()) {
@@ -320,7 +408,7 @@ var website = function (_, Kotlin) {
     o.yAxis = [o_2];
     var o_3 = {};
     var $receiver = until(0, 7);
-    var destination_1 = ArrayList_init_0(collectionSizeOrDefault($receiver, 10));
+    var destination_1 = ArrayList_init(collectionSizeOrDefault($receiver, 10));
     var tmp$_5;
     tmp$_5 = $receiver.iterator();
     while (tmp$_5.hasNext()) {
@@ -329,7 +417,7 @@ var website = function (_, Kotlin) {
     }
     o_3.categories = copyToArray(destination_1);
     o.xAxis = o_3;
-    var destination_2 = ArrayList_init_0(collectionSizeOrDefault(usernames, 10));
+    var destination_2 = ArrayList_init(collectionSizeOrDefault(usernames, 10));
     var tmp$_6;
     tmp$_6 = usernames.iterator();
     while (tmp$_6.hasNext()) {
@@ -338,13 +426,13 @@ var website = function (_, Kotlin) {
       var o_4 = {};
       o_4.name = item_2;
       var $receiver_0 = until(0, 7);
-      var destination_3 = ArrayList_init_0(collectionSizeOrDefault($receiver_0, 10));
+      var destination_3 = ArrayList_init(collectionSizeOrDefault($receiver_0, 10));
       var tmp$_8;
       tmp$_8 = $receiver_0.iterator();
       while (tmp$_8.hasNext()) {
         var item_3 = tmp$_8.next();
         var tmp$_9 = destination_3.add_11rb$;
-        var destination_4 = ArrayList_init();
+        var destination_4 = ArrayList_init_0();
         var tmp$_10;
         tmp$_10 = userLists.iterator();
         while (tmp$_10.hasNext()) {
@@ -352,7 +440,7 @@ var website = function (_, Kotlin) {
           if (element.day === item_3 && equals(element.username, item_2))
             destination_4.add_11rb$(element);
         }
-        var destination_5 = ArrayList_init_0(collectionSizeOrDefault(destination_4, 10));
+        var destination_5 = ArrayList_init(collectionSizeOrDefault(destination_4, 10));
         var tmp$_11;
         tmp$_11 = destination_4.iterator();
         while (tmp$_11.hasNext()) {
@@ -393,7 +481,7 @@ var website = function (_, Kotlin) {
     var o_2 = {};
     o.yAxis = [o_2];
     var o_3 = {};
-    var destination = ArrayList_init_0(collectionSizeOrDefault(users, 10));
+    var destination = ArrayList_init(collectionSizeOrDefault(users, 10));
     var tmp$;
     tmp$ = users.iterator();
     while (tmp$.hasNext()) {
@@ -404,7 +492,7 @@ var website = function (_, Kotlin) {
     o.xAxis = o_3;
     var o_4 = {};
     o_4.name = 'Total minutes, all time';
-    var destination_0 = ArrayList_init_0(collectionSizeOrDefault(users, 10));
+    var destination_0 = ArrayList_init(collectionSizeOrDefault(users, 10));
     var tmp$_0;
     tmp$_0 = users.iterator();
     while (tmp$_0.hasNext()) {
@@ -455,7 +543,7 @@ var website = function (_, Kotlin) {
     return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.hour, other.hour) && Kotlin.equals(this.username, other.username) && Kotlin.equals(this.duration, other.duration)))));
   };
   function perDayChart(list) {
-    var destination = ArrayList_init_0(collectionSizeOrDefault(list, 10));
+    var destination = ArrayList_init(collectionSizeOrDefault(list, 10));
     var tmp$;
     tmp$ = list.iterator();
     while (tmp$.hasNext()) {
@@ -465,7 +553,7 @@ var website = function (_, Kotlin) {
     var mapped = destination;
     var tmp$_0;
     var set = HashSet_init();
-    var list_0 = ArrayList_init();
+    var list_0 = ArrayList_init_0();
     tmp$_0 = mapped.iterator();
     while (tmp$_0.hasNext()) {
       var e = tmp$_0.next();
@@ -473,7 +561,7 @@ var website = function (_, Kotlin) {
       if (set.add_11rb$(key))
         list_0.add_11rb$(e);
     }
-    var destination_0 = ArrayList_init_0(collectionSizeOrDefault(list_0, 10));
+    var destination_0 = ArrayList_init(collectionSizeOrDefault(list_0, 10));
     var tmp$_1;
     tmp$_1 = list_0.iterator();
     while (tmp$_1.hasNext()) {
@@ -481,7 +569,7 @@ var website = function (_, Kotlin) {
       var tmp$_2 = destination_0.add_11rb$;
       var tmp$_3 = item_0.hour;
       var tmp$_4 = item_0.username;
-      var destination_1 = ArrayList_init();
+      var destination_1 = ArrayList_init_0();
       var tmp$_5;
       tmp$_5 = mapped.iterator();
       while (tmp$_5.hasNext()) {
@@ -489,7 +577,7 @@ var website = function (_, Kotlin) {
         if (element.hour === item_0.hour)
           destination_1.add_11rb$(element);
       }
-      var destination_2 = ArrayList_init();
+      var destination_2 = ArrayList_init_0();
       var tmp$_6;
       tmp$_6 = destination_1.iterator();
       while (tmp$_6.hasNext()) {
@@ -497,7 +585,7 @@ var website = function (_, Kotlin) {
         if (equals(element_0.username, item_0.username))
           destination_2.add_11rb$(element_0);
       }
-      var destination_3 = ArrayList_init_0(collectionSizeOrDefault(destination_2, 10));
+      var destination_3 = ArrayList_init(collectionSizeOrDefault(destination_2, 10));
       var tmp$_7;
       tmp$_7 = destination_2.iterator();
       while (tmp$_7.hasNext()) {
@@ -515,13 +603,13 @@ var website = function (_, Kotlin) {
     }
     var folded = destination_0;
     var $receiver = until(0, 24);
-    var destination_4 = ArrayList_init_0(collectionSizeOrDefault($receiver, 10));
+    var destination_4 = ArrayList_init(collectionSizeOrDefault($receiver, 10));
     var tmp$_9;
     tmp$_9 = $receiver.iterator();
     while (tmp$_9.hasNext()) {
       var item_2 = tmp$_9.next();
       var tmp$_10 = destination_4.add_11rb$;
-      var destination_5 = ArrayList_init();
+      var destination_5 = ArrayList_init_0();
       var tmp$_11;
       tmp$_11 = folded.iterator();
       while (tmp$_11.hasNext()) {
@@ -529,7 +617,7 @@ var website = function (_, Kotlin) {
         if (element_2.hour === item_2)
           destination_5.add_11rb$(element_2);
       }
-      var destination_6 = ArrayList_init_0(collectionSizeOrDefault(destination_5, 10));
+      var destination_6 = ArrayList_init(collectionSizeOrDefault(destination_5, 10));
       var tmp$_12;
       tmp$_12 = destination_5.iterator();
       while (tmp$_12.hasNext()) {
@@ -544,7 +632,7 @@ var website = function (_, Kotlin) {
         accumulator_0 = accumulator_0.plus_vvi6vg$(element_3);
       }
       var tmp$_14 = accumulator_0.seconds;
-      var destination_7 = ArrayList_init_0(collectionSizeOrDefault(list, 10));
+      var destination_7 = ArrayList_init(collectionSizeOrDefault(list, 10));
       var tmp$_15;
       tmp$_15 = list.iterator();
       while (tmp$_15.hasNext()) {
@@ -562,14 +650,14 @@ var website = function (_, Kotlin) {
     o.yAxis = o_1;
     var o_2 = {};
     var $receiver_0 = until(0, 24);
-    var destination_8 = ArrayList_init_0(collectionSizeOrDefault($receiver_0, 10));
+    var destination_8 = ArrayList_init(collectionSizeOrDefault($receiver_0, 10));
     var tmp$_16;
     tmp$_16 = $receiver_0.iterator();
     while (tmp$_16.hasNext()) {
       var item_5 = tmp$_16.next();
       destination_8.add_11rb$('' + toString(item_5 % 12) + (item_5 > 11 ? 'pm' : 'am'));
     }
-    var destination_9 = ArrayList_init_0(collectionSizeOrDefault(destination_8, 10));
+    var destination_9 = ArrayList_init(collectionSizeOrDefault(destination_8, 10));
     var tmp$_17;
     tmp$_17 = destination_8.iterator();
     loop_label: while (tmp$_17.hasNext()) {
@@ -595,7 +683,7 @@ var website = function (_, Kotlin) {
     o.xAxis = o_2;
     var tmp$_19;
     var set_0 = HashSet_init();
-    var list_1 = ArrayList_init();
+    var list_1 = ArrayList_init_0();
     tmp$_19 = better.iterator();
     while (tmp$_19.hasNext()) {
       var e_0 = tmp$_19.next();
@@ -603,14 +691,14 @@ var website = function (_, Kotlin) {
       if (set_0.add_11rb$(key_0))
         list_1.add_11rb$(e_0);
     }
-    var destination_10 = ArrayList_init_0(collectionSizeOrDefault(list_1, 10));
+    var destination_10 = ArrayList_init(collectionSizeOrDefault(list_1, 10));
     var tmp$_20;
     tmp$_20 = list_1.iterator();
     while (tmp$_20.hasNext()) {
       var item_7 = tmp$_20.next();
       destination_10.add_11rb$(item_7.username);
     }
-    var destination_11 = ArrayList_init_0(collectionSizeOrDefault(destination_10, 10));
+    var destination_11 = ArrayList_init(collectionSizeOrDefault(destination_10, 10));
     var tmp$_21;
     tmp$_21 = destination_10.iterator();
     while (tmp$_21.hasNext()) {
@@ -619,7 +707,7 @@ var website = function (_, Kotlin) {
       var o_3 = {};
       o_3.name = item_8;
       var $receiver_1 = until(0, 24);
-      var destination_12 = ArrayList_init_0(collectionSizeOrDefault($receiver_1, 10));
+      var destination_12 = ArrayList_init(collectionSizeOrDefault($receiver_1, 10));
       var tmp$_23;
       tmp$_23 = $receiver_1.iterator();
       loop_label: while (tmp$_23.hasNext()) {
@@ -665,7 +753,7 @@ var website = function (_, Kotlin) {
   function toUserPairs($receiver) {
     var tmp$;
     var set = HashSet_init();
-    var list = ArrayList_init();
+    var list = ArrayList_init_0();
     tmp$ = $receiver.iterator();
     while (tmp$.hasNext()) {
       var e = tmp$.next();
@@ -673,20 +761,20 @@ var website = function (_, Kotlin) {
       if (set.add_11rb$(key))
         list.add_11rb$(e);
     }
-    var destination = ArrayList_init_0(collectionSizeOrDefault(list, 10));
+    var destination = ArrayList_init(collectionSizeOrDefault(list, 10));
     var tmp$_0;
     tmp$_0 = list.iterator();
     while (tmp$_0.hasNext()) {
       var item = tmp$_0.next();
       destination.add_11rb$(item.username);
     }
-    var destination_0 = ArrayList_init_0(collectionSizeOrDefault(destination, 10));
+    var destination_0 = ArrayList_init(collectionSizeOrDefault(destination, 10));
     var tmp$_1;
     tmp$_1 = destination.iterator();
     while (tmp$_1.hasNext()) {
       var item_0 = tmp$_1.next();
       var tmp$_2 = destination_0.add_11rb$;
-      var destination_1 = ArrayList_init();
+      var destination_1 = ArrayList_init_0();
       var tmp$_3;
       tmp$_3 = $receiver.iterator();
       while (tmp$_3.hasNext()) {
@@ -795,7 +883,7 @@ var website = function (_, Kotlin) {
     var getUsernameForUUID = map$getUsernameForUUID(usernames);
     var entries = JSON.parse(entriesJ);
     var old = JSON.parse(oldJ);
-    var list = ArrayList_init();
+    var list = ArrayList_init_0();
     var addDynamicToList = map$lambda(list, getUsernameForUUID);
     tmp$ = iterator(entries);
     while (tmp$.hasNext()) {
@@ -863,7 +951,7 @@ var website = function (_, Kotlin) {
     return function (it) {
       charts(it);
       var tmp$ = ensureNotNull(document.getElementById('totalHours'));
-      var destination = ArrayList_init_0(collectionSizeOrDefault(it, 10));
+      var destination = ArrayList_init(collectionSizeOrDefault(it, 10));
       var tmp$_0;
       tmp$_0 = it.iterator();
       while (tmp$_0.hasNext()) {
@@ -909,6 +997,7 @@ var website = function (_, Kotlin) {
   _.UserPair = UserPair;
   _.charts_7u896l$ = charts;
   $$importsForInline$$.website = _;
+  _.yearChart_7u896l$ = yearChart;
   _.averageTimeChart_7u896l$ = averageTimeChart;
   _.timePerDay_7u896l$ = timePerDay;
   _.totalTimeChart_7u896l$ = totalTimeChart;

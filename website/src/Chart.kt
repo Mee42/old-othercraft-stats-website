@@ -1,7 +1,7 @@
 import kotlin.js.Date
 
 external fun plotBarChart(dom: String, obj: dynamic)
-
+external fun getWeekNumber(date: Date):Int
 data class UserPair(val name: String, val time: Int)
 
 
@@ -11,6 +11,49 @@ fun charts(list: List<LogEntry>) {
     totalTimeChart(list)
     timePerDay(list)
     perDayChart(list)
+    yearChart(list)
+}
+
+fun yearChart(list: List<LogEntry>){
+    val chart = dyn {
+        chart = dyn {
+            type = "heatmap"
+        }
+        title = dyn {
+            text = "THIS IS THE TITLE"
+        }
+        xAxis = dyn {
+            categories = (0..52).map { it.toString() }.toTypedArray()
+        }
+        yAxis = dyn {
+            categories = arrayOf("Sun","Mon","Tues","Wed","Thur","Fri","Sat")
+        }
+        colorAxis = dyn {
+            min = 0
+            minColor = "#FFFFFF"
+            maxColor = "#000000"
+        }
+        series = arrayOf(dyn {
+            name = "Activity on this day"
+            borderWidth = 1
+            data = (0..52).map { week -> (0 until 7).map { day ->
+                    listOf(week,day,list.filter {
+                        val date = Date(it.time)
+                        date.getDay() == day && getWeekNumber(date) == week
+                    }.map { Duration(it.msDuration / 1000) }
+                            .fold(Duration(0)) { a,b -> a + b }
+                            .let { it.seconds }).toTypedArray()
+                }
+            }.flatten().toTypedArray()
+        })
+        tooltip = dyn {
+            formatter = {
+                val sec = js("this.point.value") as Int
+                hm(sec.div(60))
+            }
+        }
+    }
+    plotBarChart("year",chart)
 }
 
 fun averageTimeChart(list: List<LogEntry>) {
