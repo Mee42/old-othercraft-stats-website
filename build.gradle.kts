@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "1.3.41"
+    application
 }
 group = "org.othercraft"
 version = "0.0.1"
@@ -21,4 +22,9 @@ compileKotlin.kotlinOptions {
 val compileTestKotlin: KotlinCompile by tasks
 compileTestKotlin.kotlinOptions {
     jvmTarget = "1.8"
+}
+
+application {
+    mainClassName = "org.othercraft.YoinkKt"
+
 }

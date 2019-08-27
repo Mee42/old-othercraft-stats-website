@@ -23,7 +23,7 @@ val client: DiscordClient = DiscordClientBuilder(key.readText().trim()).build()
 
 
 
-//TIME:f2b4fad3-fc2d-4799-8281-f78acad115c5:1521412
+//TIME:f2b4fad3-fc2d-4799-8281-f78acad115c5:1521412*/
 
 fun main() {
     client.login().subscribe()
